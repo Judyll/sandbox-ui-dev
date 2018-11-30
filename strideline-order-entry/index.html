@@ -1,0 +1,267 @@
+<!doctype html>
+
+<html>
+  
+    <head>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="lib/style.css">    
+    <script src="lib/script.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    <title>Strideline Order Entry View</title>
+
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div class="row text-center">
+                <h1>Order Entry</h1>
+            </div>
+
+            <div id="div-search-customer-panel" class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="panel-container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 id="h4-customer-panel-text" class="text-center">Search Customer</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <div id="div-customer-search"class="row">
+                            <div class="col-sm-4">
+                                <label for="text-search-customer">
+                                    Enter Name/Email
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <!--
+                                    Change to the CustomerId dropdown
+                                    <select id="CustomerId" class="form-control">
+                                    <option value="customer0">- Select -</option>
+                                    <option value="customer1">Customer 1</option>
+                                    <option value="customer2">Customer 2</option>
+                                    <option value="customer3">Customer 3</option>
+                                </select>
+                                -->
+                                <div class="input-group">
+                                    <input class="form-control" id="text-search-customer" type="text">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" id="btn-search-customer">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>                            
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div id="div-customer-result" class="row">
+                            <div id="div-customer-result-grid" class="col-sm-12">
+                                <hr>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Lastname</th>
+                                            <th>Email</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>john@example.com</td>
+                                        <td><button>Select</button></td>
+                                        </tr>
+                                        <tr>
+                                        <td>Mary</td>
+                                        <td>Moe</td>
+                                        <td>mary@example.com</td>
+                                        <td><button>Select</button></td>
+                                        </tr>
+                                        <tr>
+                                        <td>July</td>
+                                        <td>Dooley</td>
+                                        <td>july@example.com</td>
+                                        <td><button>Select</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-12 text-center">
+                                    <button id="btn-new-customer" class="btn btn-primary" style="max-width: 400px;">Or, Create New Customer</button>
+                                </div>
+                            </div>
+                        </div> 
+                         
+                        <div id="div-create-customer-control">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="txt-customer-last-name">
+                                        Last Name
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-customer-last-name"
+                                        type="text"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-customer-first-name">
+                                        First Name
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-customer-first-name"
+                                        type="text"
+                                        class="form-control">
+                                </div>
+                            </div>                            
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-customer-email">
+                                        Email
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-customer-email"
+                                        type="text"
+                                        class="form-control">
+                                </div>
+                                <div class="col-sm-12">                                
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+
+            <div id="div-order-details"class="row">
+                <!--
+                    On the left side, we will have the controls where the user
+                    can search for the customer information and product information
+                    to be added to the order
+                -->
+                <div class="col-sm-6">
+                    <div class="panel-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h4 class="text-center">Search Product</h4>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="ProductId">
+                                        Enter Name/SKU
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <!--
+                                        Change to the CustomerId dropdown
+                                        <select id="CustomerId" class="form-control">
+                                        <option value="customer0">- Select -</option>
+                                        <option value="customer1">Customer 1</option>
+                                        <option value="customer2">Customer 2</option>
+                                        <option value="customer3">Customer 3</option>
+                                    </select>
+                                    -->
+                                    <div class="input-group">
+                                        <input class="form-control" id="text-search-customer" type="text">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="btn-search-customer">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>                            
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <!--
+                    On the right side, we will have the order entry sheet
+                    where it contains all the details of the order
+                -->
+                <div class="col-sm-6">
+                    <div class="panel-container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 class="text-center">Order Details</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <!--
+                            Probably we need to add the Html.BeginForm here
+                        -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="OrderType">
+                                    Order Type
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <!--
+                                    Change to the CustomerId dropdown
+                                -->
+                                <select id="OrderType" class="form-control">
+                                    <option value="samples">Samples</option>
+                                    <option value="stock">Stock</option>
+                                    <option value="amazon">Amazon</option>
+                                    <option value="replen">Replen</option>
+                                    <option value="bbby-replen">BBBY Replen</option>
+                                    <option value="replacement-pairs">Replacement Pairs 3</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12">                                
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="LastName">
+                                    Last Name
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" id="LastName" placeholder="Select customer or create new one" readonly>
+                            </div>
+                        </div>
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="FirstName">
+                                    First Name
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" id="FirstName" placeholder="Select customer or create new one" readonly>
+                            </div>
+                            <div class="col-sm-12">                                
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </body>
+
+</html>
