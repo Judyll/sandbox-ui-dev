@@ -41,29 +41,19 @@
                         </div>
                         <div id="div-customer-search"class="row">
                             <div class="col-sm-4">
-                                <label for="text-search-customer">
+                                <label for="txt-search-customer">
                                     Enter Name/Email
                                 </label>
                             </div>
                             <div class="col-sm-8">
-                                <!--
-                                    Change to the CustomerId dropdown
-                                    <select id="CustomerId" class="form-control">
-                                    <option value="customer0">- Select -</option>
-                                    <option value="customer1">Customer 1</option>
-                                    <option value="customer2">Customer 2</option>
-                                    <option value="customer3">Customer 3</option>
-                                </select>
-                                -->
                                 <div class="input-group">
-                                    <input class="form-control" id="text-search-customer" type="text">
+                                    <input class="form-control" id="txt-search-customer" type="text">
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary" id="btn-search-customer">
                                             <span class="glyphicon glyphicon-search"></span>
                                         </button>
                                     </span>                            
-                                </div>
-                                
+                                </div>                                
                             </div>
                         </div>
                         <div id="div-customer-result" class="row">
@@ -83,19 +73,19 @@
                                         <td>John</td>
                                         <td>Doe</td>
                                         <td>john@example.com</td>
-                                        <td><button>Select</button></td>
+                                        <td><button class="select-customer btn btn-default form-control" data-customer-id="1">Select</button></td>
                                         </tr>
                                         <tr>
                                         <td>Mary</td>
                                         <td>Moe</td>
                                         <td>mary@example.com</td>
-                                        <td><button>Select</button></td>
+                                        <td><button class="select-customer btn btn-default form-control" data-customer-id="2">Select</button></td>
                                         </tr>
                                         <tr>
                                         <td>July</td>
                                         <td>Dooley</td>
                                         <td>july@example.com</td>
-                                        <td><button>Select</button></td>
+                                        <td><button class="select-customer btn btn-default form-control" data-customer-id="3">Select</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -108,49 +98,170 @@
                         <div id="div-create-customer-control">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label for="txt-customer-last-name">
+                                    <label for="txt-create-last-name">
                                         Last Name
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input id="txt-customer-last-name"
-                                        type="text"
-                                        class="form-control">
+                                    <input id="txt-create-last-name"
+                                        class="form-control"
+                                        type="text">
                                 </div>
                             </div>
                             <div class="row top-5">
                                 <div class="col-sm-4">
-                                    <label for="txt-customer-first-name">
+                                    <label for="txt-create-first-name">
                                         First Name
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input id="txt-customer-first-name"
-                                        type="text"
-                                        class="form-control">
+                                    <input id="txt-create-first-name"
+                                        class="form-control"
+                                        type="text">
                                 </div>
                             </div>                            
                             <div class="row top-5">
                                 <div class="col-sm-4">
-                                    <label for="txt-customer-email">
+                                    <label for="txt-create-email">
                                         Email
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input id="txt-customer-email"
-                                        type="text"
-                                        class="form-control">
+                                    <input id="txt-create-email"
+                                        class="form-control"
+                                        type="text">
                                 </div>
                                 <div class="col-sm-12">                                
                                     <hr>
                                 </div>
                             </div>
-                        </div>                      
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-create-company">
+                                        Company
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-create-company"
+                                        class="form-control"
+                                        type="text">
+                                </div>
+                            </div>  
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="sel-create-country">
+                                        Country
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <!--TODO-JUDYLL: Change this to retrieve data from the server-->
+                                    <select id="sel-create-country" class="form-control">
+                                        <option value="0">Select country</option>
+                                        <option value="239">Afghanistan</option>
+                                        <option value="238">Norway</option>
+                                    </select>
+                                </div>
+                            </div>  
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="sel-create-state">
+                                        State / province
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <!--TODO-JUDYLL: Change this to retrieve data from the server-->
+                                    <select id="sel-create-state" class="form-control">
+                                        <option value="0">Other (Non US)</option>
+                                    </select>
+                                </div>
+                            </div>  
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-create-city">
+                                        City
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-create-city"
+                                        class="form-control"
+                                        type="text">
+                                </div>
+                            </div> 
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-create-address1">
+                                        Address 1
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-create-address1"
+                                        class="form-control"
+                                        type="text">
+                                </div>
+                            </div> 
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-create-address2">
+                                        Address 2
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-create-address2"
+                                        class="form-control"
+                                        type="text">
+                                </div>
+                            </div> 
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-create-zip">
+                                        Zip / postal code
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-create-zip"
+                                        class="form-control"
+                                        type="text">
+                                </div>
+                            </div>   
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-create-phone">
+                                        Phone number
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-create-phone"
+                                        class="form-control"
+                                        type="text">
+                                </div>
+                                <div class="col-sm-12">                                
+                                    <hr>
+                                </div>
+                            </div>  
+                            <div class="row top-5">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-3" style="padding-right: 1px;">
+                                    <button id="btn-create-customer" class="btn btn-primary form-control">Create</button>
+                                </div>
+                                <div class="col-sm-3" style="padding-left: 1px;">
+                                    <button id="btn-cancel-customer" class="btn btn-danger form-control">Cancel</button>
+                                </div>
+                            </div>
+                        </div>                        
+                        
+                        <div id="div-product-order-create-message">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <hr>
+                                    <p>The order has been created successfully.</p>
+                                </div>
+                            </div>                            
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="div-order-details"class="row">
+            <div id="div-order-details-panel"class="row">
                 <!--
                     On the left side, we will have the controls where the user
                     can search for the customer information and product information
@@ -158,40 +269,198 @@
                 -->
                 <div class="col-sm-6">
                     <div class="panel-container">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h4 class="text-center">Search Product</h4>
-                                    <hr>
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 id="h4-product-panel-text" class="text-center">Search Product to Order</h4>
+                                <hr>
                             </div>
+                        </div>
+                        <div id="div-product-search"class="row">
+                            <div class="col-sm-4">
+                                <label for="txt-search-product">
+                                    Enter Name/SKU
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="txt-search-product" class="form-control" type="text">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" id="btn-search-product">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>                            
+                                </div>                                    
+                            </div>
+                        </div>
+                        <div id="div-product-result" class="row">
+                            <div id="div-product-result-grid" class="col-sm-12">
+                                <hr>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>SKU</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td>9640</td>
+                                        <td>Anytime Fitness</td>
+                                        <td>N00438424SM</td>
+                                        <td><button class="select-product btn btn-default form-control" data-product-id="1">Select</button></td>
+                                        </tr>
+                                        <tr>
+                                        <td>9641</td>
+                                        <td>Beautiful Bodies Studio</td>
+                                        <td>N004619</td>
+                                        <td><button class="select-product btn btn-default form-control" data-product-id="9641">Select</button></td>
+                                        </tr>
+                                        <tr>
+                                        <td>9642</td>
+                                        <td>BrewCity Crossfit</td>
+                                        <td>N00462</td>
+                                        <td><button class="select-product btn btn-default form-control" data-product-id="9642">Select</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>                            
+                        </div>
+                        <div id="div-product-order-entry">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label for="ProductId">
-                                        Enter Name/SKU
+                                    <label for="txt-entry-product-name">
+                                        Product Name
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <!--
-                                        Change to the CustomerId dropdown
-                                        <select id="CustomerId" class="form-control">
-                                        <option value="customer0">- Select -</option>
-                                        <option value="customer1">Customer 1</option>
-                                        <option value="customer2">Customer 2</option>
-                                        <option value="customer3">Customer 3</option>
-                                    </select>
-                                    -->
-                                    <div class="input-group">
-                                        <input class="form-control" id="text-search-customer" type="text">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btn-search-customer">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </button>
-                                        </span>                            
-                                    </div>
-                                    
+                                    <input id="txt-entry-product-name"
+                                        class="form-control"
+                                        type="text"
+                                        readonly>
+                                </div>
+                            </div> 
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-product-sku">
+                                        SKU
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-product-sku"
+                                        class="form-control"
+                                        type="text"
+                                        readonly>
+                                </div>
+                            </div>                                                     
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-price-include-tax">
+                                        Price (incl tax)
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-price-include-tax"
+                                        class="form-control"
+                                        type="number">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-price-exclude-tax">
+                                        Price (excl tax)
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-price-exclude-tax"
+                                        class="form-control"
+                                        type="number">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-quantity">
+                                        Quantity
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-quantity"
+                                        class="form-control"
+                                        type="number">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-discount-include-tax">
+                                        Discount (incl tax)
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-discount-include-tax"
+                                        class="form-control"
+                                        type="number">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-discount-exclude-tax">
+                                        Discount (excl tax)
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-discount-exclude-tax"
+                                        class="form-control"
+                                        type="number">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-total-include-tax">
+                                        Total (incl tax)
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-total-include-tax"
+                                        class="form-control"
+                                        type="number">
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-total-exclude-tax">
+                                        Total (excl tax)
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-total-exclude-tax"
+                                        class="form-control"
+                                        type="number">
+                                </div>                                
+                                <div class="col-sm-12">                                
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-3" style="padding-right: 1px;">
+                                    <button id="btn-add-order-entry" class="btn btn-primary form-control">Add</button>
+                                </div>
+                                <div class="col-sm-3" style="padding-left: 1px;">
+                                    <button id="btn-cancel-order-entry" class="btn btn-danger form-control">Cancel</button>
                                 </div>
                             </div>
                         </div>
+                        <div id="div-product-order-entry-message">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <hr>
+                                    <p>Product has been added to the order.  Please check the Order Details panel.</p>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
                 </div>
 
                 <!--
@@ -234,32 +503,216 @@
                         </div>
                         <div class="row top-5">
                             <div class="col-sm-4">
-                                <label for="LastName">
+                                <label for="txt-order-last-name">
                                     Last Name
                                 </label>
                             </div>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" id="LastName" placeholder="Select customer or create new one" readonly>
+                                <input id="txt-order-last-name"
+                                    class="form-control"
+                                    type="text"
+                                    readonly>
                             </div>
                         </div>
                         <div class="row top-5">
                             <div class="col-sm-4">
-                                <label for="FirstName">
+                                <label for="txt-order-first-name">
                                     First Name
                                 </label>
                             </div>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" id="FirstName" placeholder="Select customer or create new one" readonly>
+                                <input id="txt-order-first-name"
+                                    class="form-control"
+                                    type="text"
+                                    readonly>
+                            </div>
+                        </div>                            
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-email">
+                                    Email
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-email"
+                                    class="form-control"
+                                    type="text"
+                                    readonly>
+                            </div>
+                            <div class="col-sm-12">                                
+                                <hr>
+                            </div>
+                        </div> 
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-company">
+                                    Company
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-company"
+                                    class="form-control"
+                                    type="text">
+                            </div>
+                        </div>   
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="sel-order-country">
+                                    Country
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <!--TODO-JUDYLL: Change this to retrieve data from the server-->
+                                <select id="sel-order-country" class="form-control">
+                                    <option value="0">Select country</option>
+                                    <option value="239">Afghanistan</option>
+                                    <option value="238" selected>Australia</option>
+                                </select>
+                            </div>
+                        </div>  
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="sel-order-state">
+                                    State / province
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <!--TODO-JUDYLL: Change this to retrieve data from the server-->
+                                <select id="sel-order-state" class="form-control">
+                                    <option value="0">Other (Non US)</option>
+                                </select>
+                            </div>
+                        </div>  
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-city">
+                                    City
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-city"
+                                    class="form-control"
+                                    type="text">
+                            </div>
+                        </div>  
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-address1">
+                                    Address 1
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-address1"
+                                    class="form-control"
+                                    type="text">
+                            </div>
+                        </div>  
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-address2">
+                                    Address 2
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-address2"
+                                    class="form-control"
+                                    type="text">
+                            </div>
+                        </div> 
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-zip">
+                                    Zip / postal code
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-zip"
+                                    class="form-control"
+                                    type="text">
+                            </div>
+                        </div>    
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="txt-order-phone">
+                                    Phone number
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="txt-order-phone"
+                                    class="form-control"
+                                    type="text">
                             </div>
                             <div class="col-sm-12">                                
                                 <hr>
                             </div>
                         </div>
+                        <div class="row top-5">
+                            <div id="div-product-order-grid"class="col-sm-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name/SKU</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Discount</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Anytime Fitness (N00438424SM)</td>
+                                            <td>18.50</td>
+                                            <td>1</td>
+                                            <td>0.00</td>
+                                            <td>18.00</td>
+                                            <td>
+                                                <button class="remove-product btn btn-default form-control" data-product-id="9640">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Beautiful Bodies Studio (N004619)</td>
+                                            <td>15.00</td>
+                                            <td>2</td>
+                                            <td>0.00</td>
+                                            <td>30.00</td>
+                                            <td>
+                                                <button class="remove-product btn btn-default form-control" data-product-id="9641">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>BrewCity Crossfit (N00462)</td>
+                                            <td>19.00</td>
+                                            <td>1</td>
+                                            <td>0.00</td>
+                                            <td>19.00</td>
+                                            <td>
+                                                <button class="remove-product btn btn-default form-control" data-product-id="9642">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row top-5">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-3" style="padding-right: 1px;">
+                                <button id="btn-add-order-details" class="btn btn-primary form-control">Add</button>
+                            </div>
+                            <div class="col-sm-3" style="padding-left: 1px;">
+                                <button id="btn-cancel-order-details" class="btn btn-danger form-control">Cancel</button>
+                            </div>
+                        </div>    
                     </div>
                 </div>
-
-            </div>
-            
+            </div>            
         </div>
 
     </body>
