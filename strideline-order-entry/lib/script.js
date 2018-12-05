@@ -9,7 +9,7 @@ $(document).ready(function () {
         var searchKey = $(this).val().trim();
 
         if (e.which === ENTER_KEY && searchKey.length !== 0) {
-            showCustomerSearchResult(searchKey);
+            showCustomerSearchResult(searchKey);           
         }
     });
 
@@ -27,6 +27,8 @@ $(document).ready(function () {
 
         $('#h4-customer-panel-text').text('Create New Customer');
         $('#div-create-customer-control').show(500);
+
+        goToByScroll('div-create-customer-control');
     });
 
     $('#btn-create-customer').on('click', function () {
@@ -86,6 +88,7 @@ $(document).ready(function () {
     });
 
     $('#btn-add-order-details').on('click', function () {
+        initProductSearch();
         initCustomerSearch(); 
 
         // TODO-ADD: Add the logic here that saves the order
@@ -94,6 +97,7 @@ $(document).ready(function () {
     });
 
     $('#btn-cancel-order-details').on('click', function () {
+        initProductSearch();
         initCustomerSearch();
     });
 });
@@ -104,11 +108,15 @@ function showCustomerSearchResult(searchKey) {
     // TODO-JUDYLL: Add an ajax call to search for the customer here.
 
     $('#div-customer-result').show(500);
+
+    goToByScroll('div-customer-result');
 }
 
 function showOrderDetailsPanel(customerId) {
     $('#div-search-customer-panel').hide();
     $('#div-order-details-panel').show(500);
+    
+    initProductSearch();
 
     // TODO-JUDYLL: Retrieve the customer information and address here
     
@@ -135,6 +143,8 @@ function initCustomerSearch() {
     $('#div-customer-search').show(500);
     $('#txt-search-customer').val('');
     $('#txt-search-customer').focus();
+
+    goToByScroll('div-customer-search');
 }
 
 function initProductSearch() {
@@ -146,6 +156,8 @@ function initProductSearch() {
     $('#div-product-search').show(500);
     $('#txt-search-product').val('');    
     $('#txt-search-product').focus();
+
+    goToByScroll('div-product-search');
 }
 
 function showProductSearchResult(searchKey) {
@@ -154,6 +166,8 @@ function showProductSearchResult(searchKey) {
     // TODO-JUDYLL: Add an ajax call to search for the product here.
 
     $('#div-product-result').show(500);
+
+    goToByScroll('div-product-result');
 }
 
 function showProductOrderEntry(productId) {
@@ -163,6 +177,8 @@ function showProductOrderEntry(productId) {
     $('#h4-product-panel-text').text('Product Order Entry');
 
     $('#div-product-order-entry').show(500);
+
+    goToByScroll('div-product-order-entry');
 
     // Assign the retrieved product values in the control
     $('#txt-entry-product-name').val('Anytime Fitness');
@@ -174,5 +190,11 @@ function showProductOrderEntry(productId) {
     $('#txt-entry-discount-exclude-tax').val(0.00);
     $('#txt-entry-total-include-tax').val(18.50);
     $('#txt-entry-total-exclude-tax').val(18.50);
+}
+
+function goToByScroll(id){
+    //SOURCE: https://stackoverflow.com/questions/3432656/scroll-to-a-div-using-jquery
+    $('html,body').animate({ scrollTop: $("#"+id).offset().top },
+    'slow');
 }
 
