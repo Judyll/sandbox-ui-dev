@@ -27,8 +27,50 @@ $(document).ready(function () {
 
         $('#h4-customer-panel-text').text('Create New Customer');
         $('#div-create-customer-control').show(500);
+        $('#txt-create-last-name').focus();        
 
         goToByScroll('div-create-customer-control');
+
+        // Remove all the existing html elements in the #sel-create-country
+        // element and replace it with new <option> element.
+        var ddlCountry = $('#sel-create-country');
+        ddlCountry.html('');
+        ddlCountry.append($('<option></option>').val(0).html('Select a country'));
+        ddlCountry.append($('<option></option>').val(8).html('Country 8'));
+        ddlCountry.append($('<option></option>').val(9).html('Country 9'));
+
+        // TODO: Judyll -- Add this to SL
+        createCustomerFastFeedback();
+    });
+
+    $('#sel-create-country').on('change', function () {
+        
+        // TODO: Judyll -- Must add to SL
+        if ($(this).val() <= 0) {
+            $('#sel-create-state').attr('disabled', true);
+            //How to make the first option of <select> selected with jQuery - https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
+            $('#sel-create-state').val($('#sel-create-state option:first').val());
+        } else {
+            $('#sel-create-state').attr('disabled', false);
+        }        
+
+        var selectedItem = $(this).val();
+
+        console.log(selectedItem);
+
+        var ddlStates = $('#sel-create-state');
+        ddlStates.html('');
+        ddlStates.append($('<option></option>').val(0).html('Select state'));
+        ddlStates.append($('<option></option>').val(1).html('State 1'));
+        ddlStates.append($('<option></option>').val(2).html('State 2'));
+
+        // TODO: Judyll -- Must add to SL
+        setCustomerCreateButton(false);
+    });
+
+    // TODO: Judyll -- Must add to SL
+    $('#sel-create-state').on('change', function () {
+        setCustomerCreateButton(false);
     });
 
     $('#btn-create-customer').on('click', function () {
@@ -102,10 +144,219 @@ $(document).ready(function () {
     });
 });
 
+// TODO: Judyll - Add this to SL
+function createCustomerFastFeedback() {
+
+    setCustomerCreateButton(true);
+
+    $('#txt-create-last-name').blur(function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-create-last-name'), 
+            'Last Name field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-create-last-name'),
+                'Last Name must contain at least 3 characters.', e);
+        }
+
+        setCustomerCreateButton(false);
+    });
+
+    $('#txt-create-first-name').blur(function (e) {         
+        var isValid = hasValueTextField($(this), $('#feedback-create-first-name'), 
+            'First Name field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-create-first-name'),
+                'First Name must contain at least 3 characters.', e);
+        }
+
+        setCustomerCreateButton(false);
+    });
+
+    $('#txt-create-email').blur(function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-create-email'), 
+            'Email field is required.', e)
+        
+        if (isValid) {
+            isValid = isValidEmail($(this), $('#feedback-create-email'),
+                'Please enter a valid email.', e);
+        }
+
+        if (isValid) {
+            emailAreadyExists($(this), $('#feedback-create-email'),
+                'Email already exist.', e);
+        }
+
+        setCustomerCreateButton(false);        
+    });
+
+    $('#txt-create-company').blur(function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-create-company'), 
+            'Company field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-create-company'),
+                'Company must contain at least 3 characters.', e);
+        }
+
+        setCustomerCreateButton(false);        
+    });
+
+    $('#sel-create-country').blur(function (e) { 
+        hasSelectedOption($(this), $('#feedback-create-country'),
+                'Please select a country.', e);
+        
+        setCustomerCreateButton(false);             
+    });
+
+    $('#sel-create-state').blur(function (e) { 
+        hasSelectedOption($(this), $('#feedback-create-state'),
+                'Please select a state/province.', e);
+        
+        setCustomerCreateButton(false);          
+    });
+
+    $('#txt-create-city').blur(function (e) { 
+        hasValueTextField($(this), $('#feedback-create-city'), 
+            'City field is required.', e)
+
+        setCustomerCreateButton(false);  
+        
+    });
+
+    $('#txt-create-address1').blur(function (e) { 
+        hasValueTextField($(this), $('#feedback-create-address1'), 
+            'Address 1 field is required.', e)
+
+        setCustomerCreateButton(false);          
+    });
+
+    $('#txt-create-zip').blur(function (e) { 
+        hasValueTextField($(this), $('#feedback-create-zip'), 
+            'Zip/Postal Code field is required.', e)
+
+        setCustomerCreateButton(false);         
+    });
+}
+
+// TODO: Judyll -- Add this to SL
+function hasSelectedOption(inputElement, feedbackElement, message, event) {
+    if (inputElement.children('option').length > 1 && inputElement.val() <= 0) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
+// TODO: Judyll -- Add this to SL
+function isValidEmail(inputElement, feedbackElement, message, event) {    
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    
+    if (!regex.test(inputElement.val())) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
+// TODO: Judyll -- Add this to SL
+function emailAreadyExists(inputElement, feedbackElement, message, event) {
+
+    // TODO: Judyll -- Make an ajax call to check if the email already exist on the
+    // the server
+    if (1 === 0) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
+// TODO: Judyll -- Add this to SL
+function hasValueTextField(inputElement, feedbackElement, message, event) {
+    if (inputElement.val().trim().length <= 0) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
+// TODO: Judyll -- Add this to SL
+function isValidThreeChar(inputElement, feedbackElement, message, event) {
+    if (inputElement.val().trim().length < 3 ) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
+// TODO: Judyll -- Add this to SL
+function setCustomerCreateButton(isLoad) {    
+
+    var createButton = $('#btn-create-customer');
+
+    if (isLoad) {
+        createButton.attr('disabled', true);
+    } else {        
+        var hasErrors = false;
+        // Select all elements that has the class .invalid-feedback inside
+        // the element which has the id #div-create-customer-control.  Make sure
+        // you will add the 'space' between #div-create-customer-control and .invalid-feedback
+        var feedBacks = $('#div-create-customer-control .invalid-feedback');
+        $.each(feedBacks, function (index, fb) {
+            if (fb.innerText.length > 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        // jQuery - Get input value with specific class name - https://stackoverflow.com/questions/40957357/jquery-get-input-value-with-specific-class-name
+        $('#div-create-customer-control .text-required').each(function () {
+            if ($(this).val().trim().length === 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        $('#div-create-customer-control .select-required').each(function () {
+            if ($(this).children('option').length > 1 && $(this).val() <= 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        createButton.attr('disabled', hasErrors);
+    }    
+}
+
 function showCustomerSearchResult(searchKey) {
     $('#div-product-order-create-message').hide();
 
-    // TODO-JUDYLL: Add an ajax call to search for the customer here.
+    // TODO: Judyll - Add an ajax call to search for the customer here.
 
     $('#div-customer-result').show(500);
 
@@ -137,6 +388,7 @@ function initCustomerSearch() {
     $('#div-create-customer-control').hide();
     $('#div-order-details-panel').hide();
     $('#div-product-order-create-message').hide();
+    $('#sel-create-state').attr('disabled', true);
 
     $('#h4-customer-panel-text').text('Search Customer');
     $('#div-search-customer-panel').show();
@@ -157,7 +409,7 @@ function initProductSearch() {
     $('#txt-search-product').val('');    
     $('#txt-search-product').focus();
 
-    goToByScroll('div-product-search');
+    goToByScroll('h4-product-panel-text');
 }
 
 function showProductSearchResult(searchKey) {
@@ -178,12 +430,13 @@ function showProductOrderEntry(productId) {
 
     $('#div-product-order-entry').show(500);
 
-    goToByScroll('div-product-order-entry');
+    goToByScroll('h4-product-panel-text');
 
     // Assign the retrieved product values in the control
     $('#txt-entry-product-name').val('Anytime Fitness');
     $('#txt-entry-product-sku').val('N00438424SM');
     $('#txt-entry-price-include-tax').val(18.50);
+    $('#txt-entry-price-include-tax').focus();
     $('#txt-entry-price-exclude-tax').val(18.50);
     $('#txt-entry-quantity').val(1);
     $('#txt-entry-discount-include-tax').val(0.00);

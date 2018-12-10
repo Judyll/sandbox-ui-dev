@@ -96,7 +96,17 @@
                             </div>
                         </div> 
                          
+                        <!--
+                            We are not using forms here since forms will submit the page
+                            and to a refresh when the create button is clicked and we don't
+                            want that functionality on this page
+                        -->
                         <div id="div-create-customer-control">
+                            <!--
+                                TODO: Judyll - Must add to SL but be careful
+                                with the SL changes on the country and state
+                                dropdown
+                            -->
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label for="txt-create-last-name">
@@ -105,8 +115,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-last-name"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-last-name" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -117,8 +128,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-first-name"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-first-name" class="invalid-feedback"></span>
                                 </div>
                             </div>                            
                             <div class="row top-5">
@@ -129,8 +141,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-email"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-email" class="invalid-feedback"></span>
                                 </div>
                                 <div class="col-sm-12">                                
                                     <hr>
@@ -144,8 +157,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-company"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-company" class="invalid-feedback"></span>
                                 </div>
                             </div>  
                             <div class="row top-5">
@@ -156,11 +170,12 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <!--TODO-JUDYLL: Change this to retrieve data from the server-->
-                                    <select id="sel-create-country" class="form-control">
+                                    <select id="sel-create-country" class="form-control select-required">
                                         <option value="0">Select country</option>
                                         <option value="239">Afghanistan</option>
                                         <option value="238">Norway</option>
                                     </select>
+                                    <span id="feedback-create-country" class="invalid-feedback"></span>
                                 </div>
                             </div>  
                             <div class="row top-5">
@@ -171,9 +186,10 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <!--TODO-JUDYLL: Change this to retrieve data from the server-->
-                                    <select id="sel-create-state" class="form-control">
+                                    <select id="sel-create-state" class="form-control select-required">
                                         <option value="0">Other (Non US)</option>
                                     </select>
+                                    <span id="feedback-create-state" class="invalid-feedback"></span>
                                 </div>
                             </div>  
                             <div class="row top-5">
@@ -184,8 +200,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-city"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-city" class="invalid-feedback"></span>
                                 </div>
                             </div> 
                             <div class="row top-5">
@@ -196,8 +213,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-address1"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-address1" class="invalid-feedback"></span>
                                 </div>
                             </div> 
                             <div class="row top-5">
@@ -220,8 +238,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-create-zip"
-                                        class="form-control"
+                                        class="form-control text-required"
                                         type="text">
+                                    <span id="feedback-create-zip" class="invalid-feedback"></span>
                                 </div>
                             </div>   
                             <div class="row top-5">
@@ -247,7 +266,7 @@
                                 <div class="col-sm-3" style="padding-left: 1px;">
                                     <button id="btn-cancel-customer" class="btn btn-danger form-control">Cancel</button>
                                 </div>
-                            </div>
+                            </div>                         
                         </div>                        
                         
                         <div id="div-product-order-create-message">

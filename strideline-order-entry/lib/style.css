@@ -11,3 +11,20 @@
 .top-15 {
     margin-top: 15px;
 }
+
+/**
+TODO: Judyll - Must add to SL
+**/
+.invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #DF382C;
+}
+
+/**
+TODO: Judyll - Must add to SL
+**/
+.form-control.is-invalid {
+    border-color: #DF382C;    
+}
