@@ -12,9 +12,23 @@
     margin-top: 15px;
 }
 
-/**
-TODO: Judyll - Must add to SL
-**/
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .invalid-feedback {
     width: 100%;
     margin-top: 0.25rem;
@@ -22,9 +36,6 @@ TODO: Judyll - Must add to SL
     color: #DF382C;
 }
 
-/**
-TODO: Judyll - Must add to SL
-**/
 .form-control.is-invalid {
     border-color: #DF382C;    
 }

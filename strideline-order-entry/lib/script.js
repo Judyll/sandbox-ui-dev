@@ -77,8 +77,22 @@ $(document).ready(function () {
         // TODO-JUDYLL: Add the logic here to create a new customer
 
         // If successful get the new customer Id
-        var customerId = 1;
-        showOrderDetailsPanel(customerId);
+        // TODO: Judyll - Must add to SL but must change to ajax call        
+        var data = {
+            LastName: $('#txt-create-last-name').val(),
+            FirstName: $('#txt-create-first-name').val(),
+            Email: $('#txt-create-email').val(),
+            Company: $('#txt-create-company').val(),
+            CountryId: $('#sel-create-country').val(),
+            StateProvinceId: $('#sel-create-state').val(),
+            City: $('#txt-create-city').val(),
+            Address1: $('#txt-create-address1').val(),
+            Address2: $('#txt-create-address2').val(),
+            ZipPostalCode: $('#txt-create-zip').val(),
+            Phone: $('#txt-create-phone').val()
+        };
+
+        showOrderDetailsPanel(data);
     });
 
     $('#btn-cancel-customer').on('click', function () {
@@ -88,9 +102,7 @@ $(document).ready(function () {
     $('.select-customer').on('click', function () {
         var customerId = $(this).data('customer-id');
 
-        console.log(customerId);
-
-        showOrderDetailsPanel(customerId);        
+        selectCustomerAndShowOrderDetailsPanel(customerId);        
     });
     
     $('#txt-search-product').keyup(function (e) { 
@@ -127,6 +139,47 @@ $(document).ready(function () {
 
     $('#btn-cancel-order-entry').on('click', function () {
         initProductSearch();
+    });
+
+    $('#sel-order-country').on('change', function () {
+
+        if ($(this).val() <= 0) {
+            $('#sel-order-state').attr('disabled', true);
+            //How to make the first option of <select> selected with jQuery - https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
+            $('#sel-order-state').val($('#sel-order-state option:first').val());
+        } else {
+            $('#sel-order-state').attr('disabled', false);
+        }
+
+        var param = {
+            countryId: $(this).val(),
+            addSelectStateItem: 'true'
+        };
+
+        // Populate the new customer create states field
+        // $.get('/strideline/process/getstatesbycountryid',
+        //     addAntiForgeryToken(param), function (data) {
+
+        //         // Add the <option> element to the new customer counter dropdown list
+        //         var ddlStates = $('#sel-order-state');
+        //         // Remove all html elements in the #sel-order-country element
+        //         ddlStates.html('');
+        //         // Iterate through each data returned in the /getstatesbycountryid method
+        //         // and append it as an option in the dropdown list
+        //         $.each(data, function (index, states) {
+        //             ddlStates.append($('<option></option>').val(states.id).html(states.name));
+        //         });
+        //     }).fail(function () {
+        //         alert('Failed to load list of States/Provinces.');
+        //     });
+
+        //setCustomerCreateButton(false);
+
+        var ddlStates = $('#sel-order-state');
+        ddlStates.html('');
+        ddlStates.append($('<option></option>').val(0).html('Select state'));
+        ddlStates.append($('<option></option>').val(1).html('State 1'));
+        ddlStates.append($('<option></option>').val(2).html('State 2'));
     });
 
     $('#btn-add-order-details').on('click', function () {
@@ -272,8 +325,9 @@ function isValidEmail(inputElement, feedbackElement, message, event) {
 // TODO: Judyll -- Add this to SL
 function emailAreadyExists(inputElement, feedbackElement, message, event) {
 
-    // TODO: Judyll -- Make an ajax call to check if the email already exist on the
-    // the server
+    // NOTE: Implementation of this method is different with what was
+    // implemented on SL
+
     if (1 === 0) {
         inputElement.addClass('is-invalid');
         feedbackElement.text(message);
@@ -363,24 +417,69 @@ function showCustomerSearchResult(searchKey) {
     goToByScroll('div-customer-result');
 }
 
-function showOrderDetailsPanel(customerId) {
+// TODO: Judyll - Must add to SL
+function selectCustomerAndShowOrderDetailsPanel(customerId) {
+
+    // TODO: Judyll - Must create an ajax call that gets the customer details
+    // based on the given customer id
+    var customerData = {
+        LastName: 'LastOrderEntry',
+        FirstName: 'FirstOrderEntry',
+        Email: '20181212-220PM@OrderEntry.com',
+        Company: 'CompanyOrderEntry',
+        CountryId: 8,
+        StateProvinceId: 1,
+        City: 'CompanyOrderEntry',
+        Address1: 'Address1OrderEntry',
+        Address2: 'Address2OrderEntry',
+        ZipPostalCode: 'ZipOrderEntry',
+        Phone: 'PhoneOrderEntry'
+    };
+
+    showOrderDetailsPanel(customerData);
+}
+
+function showOrderDetailsPanel(customerData) {
     $('#div-search-customer-panel').hide();
     $('#div-order-details-panel').show(500);
     
     initProductSearch();
 
-    // TODO-JUDYLL: Retrieve the customer information and address here
+    // TODO: Judyll - Must add to SL
     
     // Assign the retrieved customer values in the control
-    $('#txt-order-last-name').val('Doe');
-    $('#txt-order-first-name').val('John');
-    $('#txt-order-email').val('john.doe@gmail.com');
-    $('#txt-order-company').val('Insite eCommerce');
-    $('#txt-order-city').val('Test City');
-    $('#txt-order-address1').val('Test Address 1');
-    $('#txt-order-address2').val('Test Address 2');
-    $('#txt-order-zip').val('Test Zip');
-    $('#txt-order-phone').val('Test Phone');
+    $('#hdn-order-customer-id').val(customerData.Id)
+    $('#txt-order-last-name').val(customerData.LastName);
+    $('#txt-order-first-name').val(customerData.FirstName);
+    $('#txt-order-email').val(customerData.Email);
+    $('#txt-order-company').val(customerData.Company);
+
+    // TODO: Judyll - Add the logic here that retrieves and 
+    // assigns the country and state id
+
+    // Remove all the existing html elements in the #sel-create-country
+    // element and replace it with new <option> element.
+    var ddlCountry = $('#sel-order-country');
+        ddlCountry.html('');
+        ddlCountry.append($('<option></option>').val(0).html('Select a country'));
+        ddlCountry.append($('<option></option>').val(8).html('Country 8'));
+        ddlCountry.append($('<option></option>').val(9).html('Country 9'));
+
+    $('#sel-order-country').val(customerData.CountryId);
+
+    var ddlStates = $('#sel-order-state');
+        ddlStates.html('');
+        ddlStates.append($('<option></option>').val(0).html('Select state'));
+        ddlStates.append($('<option></option>').val(1).html('State 1'));
+        ddlStates.append($('<option></option>').val(2).html('State 2'));
+
+    $('#sel-order-state').val(customerData.StateProvinceId);
+
+    $('#txt-order-city').val(customerData.City);
+    $('#txt-order-address1').val(customerData.Address1);
+    $('#txt-order-address2').val(customerData.Address2);
+    $('#txt-order-zip').val(customerData.ZipPostalCode);
+    $('#txt-order-phone').val(customerData.Phone);
 }
 
 function initCustomerSearch() {

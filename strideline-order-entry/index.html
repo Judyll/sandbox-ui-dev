@@ -102,11 +102,6 @@
                             want that functionality on this page
                         -->
                         <div id="div-create-customer-control">
-                            <!--
-                                TODO: Judyll - Must add to SL but be careful
-                                with the SL changes on the country and state
-                                dropdown
-                            -->
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label for="txt-create-last-name">
@@ -169,12 +164,11 @@
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <!--TODO-JUDYLL: Change this to retrieve data from the server-->
-                                    <select id="sel-create-country" class="form-control select-required">
-                                        <option value="0">Select country</option>
-                                        <option value="239">Afghanistan</option>
-                                        <option value="238">Norway</option>
-                                    </select>
+                                    <!--
+                                        Options for this element are dynamically created
+                                        under the #btn-new-customer button on click event function
+                                    -->
+                                    <select id="sel-create-country" class="form-control select-required"></select>
                                     <span id="feedback-create-country" class="invalid-feedback"></span>
                                 </div>
                             </div>  
@@ -185,7 +179,6 @@
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <!--TODO-JUDYLL: Change this to retrieve data from the server-->
                                     <select id="sel-create-state" class="form-control select-required">
                                         <option value="0">Other (Non US)</option>
                                     </select>
@@ -494,12 +487,9 @@
                                 <hr>
                             </div>
                         </div>
-                        <!--
-                            Probably we need to add the Html.BeginForm here
-                        -->
                         <div class="row">
                             <div class="col-sm-4">
-                                <label for="OrderType">
+                                <label for="sel-order-type">
                                     Order Type
                                 </label>
                             </div>
@@ -507,7 +497,7 @@
                                 <!--
                                     Change to the CustomerId dropdown
                                 -->
-                                <select id="OrderType" class="form-control">
+                                <select id="sel-order-type" class="form-control">
                                     <option value="samples">Samples</option>
                                     <option value="stock">Stock</option>
                                     <option value="amazon">Amazon</option>
@@ -520,6 +510,10 @@
                                 <hr>
                             </div>
                         </div>
+                        <!--
+                                TODO: Judyll - Must add to SL
+                            -->
+                        <input id="hdn-order-customer-id" type="hidden">
                         <div class="row top-5">
                             <div class="col-sm-4">
                                 <label for="txt-order-last-name">
@@ -562,6 +556,8 @@
                                 <hr>
                             </div>
                         </div> 
+                        // TODO: Judyll - Must add to SL
+                        <input id="hdn-order-address-id" type="hidden">
                         <div class="row top-5">
                             <div class="col-sm-4">
                                 <label for="txt-order-company">
