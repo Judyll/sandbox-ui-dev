@@ -39,13 +39,11 @@ $(document).ready(function () {
         ddlCountry.append($('<option></option>').val(8).html('Country 8'));
         ddlCountry.append($('<option></option>').val(9).html('Country 9'));
 
-        // TODO: Judyll -- Add this to SL
         createCustomerFastFeedback();
     });
 
     $('#sel-create-country').on('change', function () {
         
-        // TODO: Judyll -- Must add to SL
         if ($(this).val() <= 0) {
             $('#sel-create-state').attr('disabled', true);
             //How to make the first option of <select> selected with jQuery - https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
@@ -64,11 +62,10 @@ $(document).ready(function () {
         ddlStates.append($('<option></option>').val(1).html('State 1'));
         ddlStates.append($('<option></option>').val(2).html('State 2'));
 
-        // TODO: Judyll -- Must add to SL
         setCustomerCreateButton(false);
     });
 
-    // TODO: Judyll -- Must add to SL
+    
     $('#sel-create-state').on('change', function () {
         setCustomerCreateButton(false);
     });
@@ -197,7 +194,6 @@ $(document).ready(function () {
     });
 });
 
-// TODO: Judyll - Add this to SL
 function createCustomerFastFeedback() {
 
     setCustomerCreateButton(true);
@@ -292,7 +288,6 @@ function createCustomerFastFeedback() {
     });
 }
 
-// TODO: Judyll -- Add this to SL
 function hasSelectedOption(inputElement, feedbackElement, message, event) {
     if (inputElement.children('option').length > 1 && inputElement.val() <= 0) {
         inputElement.addClass('is-invalid');
@@ -306,7 +301,6 @@ function hasSelectedOption(inputElement, feedbackElement, message, event) {
     }
 }
 
-// TODO: Judyll -- Add this to SL
 function isValidEmail(inputElement, feedbackElement, message, event) {    
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     
@@ -322,7 +316,6 @@ function isValidEmail(inputElement, feedbackElement, message, event) {
     }
 }
 
-// TODO: Judyll -- Add this to SL
 function emailAreadyExists(inputElement, feedbackElement, message, event) {
 
     // NOTE: Implementation of this method is different with what was
@@ -340,7 +333,6 @@ function emailAreadyExists(inputElement, feedbackElement, message, event) {
     }
 }
 
-// TODO: Judyll -- Add this to SL
 function hasValueTextField(inputElement, feedbackElement, message, event) {
     if (inputElement.val().trim().length <= 0) {
         inputElement.addClass('is-invalid');
@@ -354,7 +346,6 @@ function hasValueTextField(inputElement, feedbackElement, message, event) {
     }
 }
 
-// TODO: Judyll -- Add this to SL
 function isValidThreeChar(inputElement, feedbackElement, message, event) {
     if (inputElement.val().trim().length < 3 ) {
         inputElement.addClass('is-invalid');
@@ -368,9 +359,7 @@ function isValidThreeChar(inputElement, feedbackElement, message, event) {
     }
 }
 
-// TODO: Judyll -- Add this to SL
-function setCustomerCreateButton(isLoad) {    
-
+function setCustomerCreateButton(isLoad) {
     var createButton = $('#btn-create-customer');
 
     if (isLoad) {
@@ -407,6 +396,32 @@ function setCustomerCreateButton(isLoad) {
     }    
 }
 
+// TODO: Judyll -- Must add to SL
+function setAddOrderEntryButton(isLoad) {
+    var addButton = $('#btn-add-order-entry');
+
+    if (isLoad) {
+        addButton.attr('disabled', true);
+    } else {
+        var hasErrors = false;
+        // Check if there are invalid feedbacks in the product order entry
+        var feedBacks = $('#div-product-order-entry .invalid-feedback');
+        $.each(feedBacks, function (index, fb) {
+            if (fb.innerText.length > 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+        // Check if fields with one-greater-required has value lesser than one
+        one-greater-required
+    }
+}
+
+// TODO: Judyll -- Must add to SL
+function isInputGreaterOrEqual(input, compareValue) {
+    return input >= compareValue;
+}
+
 function showCustomerSearchResult(searchKey) {
     $('#div-product-order-create-message').hide();
 
@@ -417,7 +432,6 @@ function showCustomerSearchResult(searchKey) {
     goToByScroll('div-customer-result');
 }
 
-// TODO: Judyll - Must add to SL
 function selectCustomerAndShowOrderDetailsPanel(customerId) {
 
     // TODO: Judyll - Must create an ajax call that gets the customer details
@@ -445,8 +459,6 @@ function showOrderDetailsPanel(customerData) {
     
     initProductSearch();
 
-    // TODO: Judyll - Must add to SL
-    
     // Assign the retrieved customer values in the control
     $('#hdn-order-customer-id').val(customerData.Id)
     $('#txt-order-last-name').val(customerData.LastName);

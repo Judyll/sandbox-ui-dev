@@ -340,6 +340,9 @@
                                 </table>
                             </div>                            
                         </div>
+                        <!--
+                            TODO: Judyll -- Must add to SL
+                        -->
                         <div id="div-product-order-entry">
                             <div class="row">
                                 <div class="col-sm-4">
@@ -375,8 +378,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-price-include-tax"
-                                        class="form-control"
+                                        class="form-control one-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-price-include-tax" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -387,8 +391,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-price-exclude-tax"
-                                        class="form-control"
+                                        class="form-control one-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-price-exclude-tax" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -399,8 +404,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-quantity"
-                                        class="form-control"
+                                        class="form-control one-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-quantity" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -411,8 +417,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-discount-include-tax"
-                                        class="form-control"
+                                        class="form-control zero-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-discount-include-tax" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -423,8 +430,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-discount-exclude-tax"
-                                        class="form-control"
+                                        class="form-control zero-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-discount-exclude-tax" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -435,8 +443,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-total-include-tax"
-                                        class="form-control"
+                                        class="form-control one-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-total-include-tax" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -447,8 +456,9 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <input id="txt-entry-total-exclude-tax"
-                                        class="form-control"
+                                        class="form-control one-greater-required"
                                         type="number">
+                                    <span id="feedback-entry-total-exclude-tax" class="invalid-feedback"></span>
                                 </div>                                
                                 <div class="col-sm-12">                                
                                     <hr>
@@ -510,9 +520,6 @@
                                 <hr>
                             </div>
                         </div>
-                        <!--
-                                TODO: Judyll - Must add to SL
-                            -->
                         <input id="hdn-order-customer-id" type="hidden">
                         <div class="row top-5">
                             <div class="col-sm-4">
@@ -556,7 +563,6 @@
                                 <hr>
                             </div>
                         </div> 
-                        // TODO: Judyll - Must add to SL
                         <input id="hdn-order-address-id" type="hidden">
                         <div class="row top-5">
                             <div class="col-sm-4">
