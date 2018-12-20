@@ -73,8 +73,7 @@ $(document).ready(function () {
     $('#btn-create-customer').on('click', function () {
         // TODO-JUDYLL: Add the logic here to create a new customer
 
-        // If successful get the new customer Id
-        // TODO: Judyll - Must add to SL but must change to ajax call        
+        // If successful get the new customer Id        
         var data = {
             LastName: $('#txt-create-last-name').val(),
             FirstName: $('#txt-create-first-name').val(),
@@ -94,6 +93,8 @@ $(document).ready(function () {
 
     $('#btn-cancel-customer').on('click', function () {
         initCustomerSearch();
+        // TODO: Judyll -- Must add to SL
+        resetCreateCustomerForm();
     });
 
     $('.select-customer').on('click', function () {
@@ -122,9 +123,7 @@ $(document).ready(function () {
     $('.select-product').on('click', function () {
         var productId = $(this).data('product-id');
 
-        console.log(productId);
-
-        showProductOrderEntry(productId);        
+        selectProductAndShowProductOrderEntry(productId);        
     });
 
     $('#btn-add-order-entry').on('click', function () {
@@ -136,6 +135,8 @@ $(document).ready(function () {
 
     $('#btn-cancel-order-entry').on('click', function () {
         initProductSearch();
+        // TODO: Judyll -- Must add to SL
+        resetAddProductToOrderForm();
     });
 
     $('#sel-order-country').on('change', function () {
@@ -194,13 +195,30 @@ $(document).ready(function () {
     });
 });
 
+// TODO: Judyll -- Must add to SL
+function resetCreateCustomerForm() {
+    $('#txt-create-last-name').val('');
+    $('#txt-create-first-name').val('');
+    $('#txt-create-email').val('');
+    $('#txt-create-company').val('');
+    $('#sel-create-country').val(0);
+    $('#sel-create-state').val(0);
+    $('#txt-create-city').val('');
+    $('#txt-create-address1').val('');
+    $('#txt-create-address2').val('');
+    $('#txt-create-zip').val('');
+    $('#txt-create-phone').val('');
+
+    $('#btn-create-customer').attr('disabled', true);
+}
+
 function createCustomerFastFeedback() {
 
     setCustomerCreateButton(true);
 
     $('#txt-create-last-name').blur(function (e) { 
         var isValid = hasValueTextField($(this), $('#feedback-create-last-name'), 
-            'Last Name field is required.', e)
+            'Last Name field is required.', e);
         
         if (isValid) {
             isValidThreeChar($(this), $('#feedback-create-last-name'),
@@ -396,7 +414,70 @@ function setCustomerCreateButton(isLoad) {
     }    
 }
 
-// TODO: Judyll -- Must add to SL
+function resetFastFeedback() {
+    $('.invalid-feedback').each(function() {
+        $(this).text('');
+    });
+
+    $('.is-invalid').each(function() {
+        $(this).removeClass('is-invalid');
+    });
+}
+
+function createAddProductFastFeedback() {
+
+    setAddOrderEntryButton(true);
+
+    $('#txt-entry-price-include-tax').blur(function (e) { 
+        isValidGreaterEqualToOne($(this), $('#feedback-entry-price-include-tax'),
+            'Price (incl tax) field should be greater than 0.', e);
+
+        setAddOrderEntryButton(false);
+    });
+
+    $('#txt-entry-price-exclude-tax').blur(function (e) { 
+        isValidGreaterEqualToOne($(this), $('#feedback-entry-price-exclude-tax'),
+            'Price (excl tax) field should be greater than 0.', e);
+
+        setAddOrderEntryButton(false);        
+    });
+
+    $('#txt-entry-quantity').blur(function (e) { 
+        isValidGreaterEqualToOne($(this), $('#feedback-entry-quantity'),
+            'Quantity field should be greater than 0.', e);
+
+        setAddOrderEntryButton(false);                
+    });
+
+    $('#txt-entry-discount-include-tax').blur(function (e) { 
+        isValidGreaterEqualToZero($(this), $('#feedback-entry-discount-include-tax'),
+            'Discount (incl tax) field should be a positive number.', e);
+
+        setAddOrderEntryButton(false);                
+    });
+
+    $('#txt-entry-discount-exclude-tax').blur(function (e) {         
+        isValidGreaterEqualToZero($(this), $('#feedback-entry-discount-exclude-tax'),
+            'Discount (excl tax) field should be a positive number.', e);
+
+        setAddOrderEntryButton(false);                
+    });
+
+    $('#txt-entry-total-include-tax').blur(function (e) { 
+        isValidGreaterEqualToOne($(this), $('#feedback-entry-total-include-tax'),
+            'Total (incl tax) field should be greater than 0.', e);
+
+        setAddOrderEntryButton(false);                
+    });
+
+    $('#txt-entry-total-exclude-tax').blur(function (e) { 
+        isValidGreaterEqualToOne($(this), $('#feedback-entry-total-exclude-tax'),
+            'Total (excl tax) field should be greater than 0.', e);
+
+        setAddOrderEntryButton(false);                        
+    });
+}
+
 function setAddOrderEntryButton(isLoad) {
     var addButton = $('#btn-add-order-entry');
 
@@ -412,12 +493,53 @@ function setAddOrderEntryButton(isLoad) {
                 return;
             }
         });
+
         // Check if fields with one-greater-required has value lesser than one
-        one-greater-required
+        $('#div-product-order-entry one-greater-required').each(function() {
+            if (!isInputGreaterOrEqual($(this).val(), 1)) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        // Check if fields with zero-greater-required has value lesser than zero
+        $('#div-product-order-entry zero-greater-required').each(function() {
+            if (!isInputGreaterOrEqual($(this).val(), 0)) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        addButton.attr('disabled', hasErrors);       
     }
 }
 
-// TODO: Judyll -- Must add to SL
+function isValidGreaterEqualToOne(inputElement, feedbackElement, message, event) {
+    if (!isInputGreaterOrEqual(inputElement.val(), 1)) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
+function isValidGreaterEqualToZero(inputElement, feedbackElement, message, event) {
+    if (!isInputGreaterOrEqual(inputElement.val(), 0)) {
+        inputElement.addClass('is-invalid');
+        feedbackElement.text(message);
+        event.preventDefault();
+        return false;
+    } else {
+        inputElement.removeClass('is-invalid');
+        feedbackElement.text('');
+        return true;
+    }
+}
+
 function isInputGreaterOrEqual(input, compareValue) {
     return input >= compareValue;
 }
@@ -492,6 +614,8 @@ function showOrderDetailsPanel(customerData) {
     $('#txt-order-address2').val(customerData.Address2);
     $('#txt-order-zip').val(customerData.ZipPostalCode);
     $('#txt-order-phone').val(customerData.Phone);
+
+    createAddProductFastFeedback();
 }
 
 function initCustomerSearch() {
@@ -508,6 +632,8 @@ function initCustomerSearch() {
     $('#txt-search-customer').focus();
 
     goToByScroll('div-customer-search');
+
+    resetFastFeedback();
 }
 
 function initProductSearch() {
@@ -521,6 +647,8 @@ function initProductSearch() {
     $('#txt-search-product').focus();
 
     goToByScroll('h4-product-panel-text');
+
+    resetFastFeedback();
 }
 
 function showProductSearchResult(searchKey) {
@@ -533,7 +661,20 @@ function showProductSearchResult(searchKey) {
     goToByScroll('div-product-result');
 }
 
-function showProductOrderEntry(productId) {
+function selectProductAndShowProductOrderEntry(productId) {
+
+    // TODO: Judyll - Must create an ajax call that gets the customer details
+    // based on the given customer id
+    var productData = {
+        Id: productId,
+        Name: 'CrossFit',
+        Sku: 'N02832344'
+    };
+
+    showProductOrderEntry(productData);
+}
+
+function showProductOrderEntry(productData) {
     $('#div-product-result').hide();
     $('#div-product-search').hide();
     $('#div-product-order-entry-message').hide();
@@ -544,8 +685,9 @@ function showProductOrderEntry(productId) {
     goToByScroll('h4-product-panel-text');
 
     // Assign the retrieved product values in the control
-    $('#txt-entry-product-name').val('Anytime Fitness');
-    $('#txt-entry-product-sku').val('N00438424SM');
+    $('#hdn-entry-product-id').val(productData.Id);
+    $('#txt-entry-product-name').val(productData.Name);
+    $('#txt-entry-product-sku').val(productData.Sku);
     $('#txt-entry-price-include-tax').val(18.50);
     $('#txt-entry-price-include-tax').focus();
     $('#txt-entry-price-exclude-tax').val(18.50);
@@ -554,6 +696,23 @@ function showProductOrderEntry(productId) {
     $('#txt-entry-discount-exclude-tax').val(0.00);
     $('#txt-entry-total-include-tax').val(18.50);
     $('#txt-entry-total-exclude-tax').val(18.50);
+}
+
+// TODO: Judyll -- Must add to SL
+function resetAddProductToOrderForm() {
+    $('#hdn-entry-product-id').val(0);
+    $('#txt-entry-product-name').val('');
+    $('#txt-entry-product-sku').val('');
+    $('#txt-entry-price-include-tax').val(0);
+    $('#txt-entry-price-include-tax').focus();
+    $('#txt-entry-price-exclude-tax').val(0);
+    $('#txt-entry-quantity').val(0);
+    $('#txt-entry-discount-include-tax').val(0.00);
+    $('#txt-entry-discount-exclude-tax').val(0.00);
+    $('#txt-entry-total-include-tax').val(0);
+    $('#txt-entry-total-exclude-tax').val(0);
+
+    $('#btn-add-order-entry').attr('disabled', true);
 }
 
 function goToByScroll(id){
