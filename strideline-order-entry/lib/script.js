@@ -18,7 +18,7 @@ $(document).ready(function () {
 
         if (searchKey.length !== 0) {
             showCustomerSearchResult(searchKey);
-        }        
+        }                
     });
 
     $('#btn-new-customer').on('click', function () {
@@ -74,7 +74,7 @@ $(document).ready(function () {
         // TODO-JUDYLL: Add the logic here to create a new customer
 
         // If successful get the new customer Id        
-        var data = {
+        var customerData = {
             LastName: $('#txt-create-last-name').val(),
             FirstName: $('#txt-create-first-name').val(),
             Email: $('#txt-create-email').val(),
@@ -88,19 +88,28 @@ $(document).ready(function () {
             Phone: $('#txt-create-phone').val()
         };
 
-        showOrderDetailsPanel(data);
+        toastr.success('Customer has been created.');
+
+        initOrderTypeSelect(customerData);
     });
 
     $('#btn-cancel-customer').on('click', function () {
-        initCustomerSearch();
-        // TODO: Judyll -- Must add to SL
+        initCustomerSearch();        
         resetCreateCustomerForm();
     });
 
     $('.select-customer').on('click', function () {
         var customerId = $(this).data('customer-id');
 
-        selectCustomerAndShowOrderDetailsPanel(customerId);        
+        selectCustomerAndInitOrderTypeSelect(customerId);        
+    });
+
+    $('#btn-proceed-order-type').on('click', function () {
+        showOrderDetailsPanel();
+    });
+
+    $('#btn-cancel-order-type').on('click', function () {
+        initCustomerSearch();
     });
     
     $('#txt-search-product').keyup(function (e) { 
@@ -128,14 +137,13 @@ $(document).ready(function () {
 
     $('#btn-add-order-entry').on('click', function () {
         initProductSearch();
-        $('#div-product-order-entry-message').show(500);
 
         // TODO-JUDYLL: Add product Id here
+        toastr.success('Product has been added to the order. Please check the Order Details panel.');
     });
 
     $('#btn-cancel-order-entry').on('click', function () {
         initProductSearch();
-        // TODO: Judyll -- Must add to SL
         resetAddProductToOrderForm();
     });
 
@@ -180,13 +188,13 @@ $(document).ready(function () {
         ddlStates.append($('<option></option>').val(2).html('State 2'));
     });
 
-    $('#btn-add-order-details').on('click', function () {
+    $('#btn-create-order-details').on('click', function () {
         initProductSearch();
         initCustomerSearch(); 
 
         // TODO-ADD: Add the logic here that saves the order
 
-        $('#div-product-order-create-message').show(500);
+        toastr.success('Order Entry has been created.');
     });
 
     $('#btn-cancel-order-details').on('click', function () {
@@ -195,7 +203,6 @@ $(document).ready(function () {
     });
 });
 
-// TODO: Judyll -- Must add to SL
 function resetCreateCustomerForm() {
     $('#txt-create-last-name').val('');
     $('#txt-create-first-name').val('');
@@ -213,10 +220,9 @@ function resetCreateCustomerForm() {
 }
 
 function createCustomerFastFeedback() {
-
     setCustomerCreateButton(true);
 
-    $('#txt-create-last-name').blur(function (e) { 
+    $('#txt-create-last-name').off('blur').on('blur', function (e) { 
         var isValid = hasValueTextField($(this), $('#feedback-create-last-name'), 
             'Last Name field is required.', e);
         
@@ -228,7 +234,7 @@ function createCustomerFastFeedback() {
         setCustomerCreateButton(false);
     });
 
-    $('#txt-create-first-name').blur(function (e) {         
+    $('#txt-create-first-name').off('blur').on('blur', function (e) {         
         var isValid = hasValueTextField($(this), $('#feedback-create-first-name'), 
             'First Name field is required.', e)
         
@@ -240,7 +246,7 @@ function createCustomerFastFeedback() {
         setCustomerCreateButton(false);
     });
 
-    $('#txt-create-email').blur(function (e) { 
+    $('#txt-create-email').off('blur').on('blur', function (e) { 
         var isValid = hasValueTextField($(this), $('#feedback-create-email'), 
             'Email field is required.', e)
         
@@ -257,7 +263,7 @@ function createCustomerFastFeedback() {
         setCustomerCreateButton(false);        
     });
 
-    $('#txt-create-company').blur(function (e) { 
+    $('#txt-create-company').off('blur').on('blur', function (e) { 
         var isValid = hasValueTextField($(this), $('#feedback-create-company'), 
             'Company field is required.', e)
         
@@ -269,21 +275,21 @@ function createCustomerFastFeedback() {
         setCustomerCreateButton(false);        
     });
 
-    $('#sel-create-country').blur(function (e) { 
+    $('#sel-create-country').off('blur').on('blur', function (e) { 
         hasSelectedOption($(this), $('#feedback-create-country'),
                 'Please select a country.', e);
         
         setCustomerCreateButton(false);             
     });
 
-    $('#sel-create-state').blur(function (e) { 
+    $('#sel-create-state').off('blur').on('blur', function (e) { 
         hasSelectedOption($(this), $('#feedback-create-state'),
                 'Please select a state/province.', e);
         
         setCustomerCreateButton(false);          
     });
 
-    $('#txt-create-city').blur(function (e) { 
+    $('#txt-create-city').off('blur').on('blur', function (e) { 
         hasValueTextField($(this), $('#feedback-create-city'), 
             'City field is required.', e)
 
@@ -291,14 +297,14 @@ function createCustomerFastFeedback() {
         
     });
 
-    $('#txt-create-address1').blur(function (e) { 
+    $('#txt-create-address1').off('blur').on('blur', function (e) { 
         hasValueTextField($(this), $('#feedback-create-address1'), 
             'Address 1 field is required.', e)
 
         setCustomerCreateButton(false);          
     });
 
-    $('#txt-create-zip').blur(function (e) { 
+    $('#txt-create-zip').off('blur').on('blur', function (e) { 
         hasValueTextField($(this), $('#feedback-create-zip'), 
             'Zip/Postal Code field is required.', e)
 
@@ -426,56 +432,85 @@ function resetFastFeedback() {
 
 function createAddProductFastFeedback() {
 
-    setAddOrderEntryButton(true);
-
-    $('#txt-entry-price-include-tax').blur(function (e) { 
-        isValidGreaterEqualToOne($(this), $('#feedback-entry-price-include-tax'),
-            'Price (incl tax) field should be greater than 0.', e);
-
+    if (!isNormalOrderType()) {
         setAddOrderEntryButton(false);
-    });
 
-    $('#txt-entry-price-exclude-tax').blur(function (e) { 
-        isValidGreaterEqualToOne($(this), $('#feedback-entry-price-exclude-tax'),
-            'Price (excl tax) field should be greater than 0.', e);
+        $('#txt-entry-price-include-tax').removeClass('one-greater-required');        
+        $('#txt-entry-price-include-tax').off('blur');
 
-        setAddOrderEntryButton(false);        
-    });
+        $('#txt-entry-price-exclude-tax').removeClass('one-greater-required');
+        $('#txt-entry-price-exclude-tax').off('blur');
 
-    $('#txt-entry-quantity').blur(function (e) { 
+        $('#txt-entry-discount-include-tax').removeClass('zero-greater-required');
+        $('#txt-entry-discount-include-tax').off('blur');
+
+        $('#txt-entry-discount-exclude-tax').removeClass('zero-greater-required');
+        $('#txt-entry-discount-exclude-tax').off('blur');
+
+        $('#txt-entry-total-include-tax').removeClass('one-greater-required');
+        $('#txt-entry-total-include-tax').off('blur');
+
+        $('#txt-entry-total-exclude-tax').removeClass('one-greater-required');
+        $('#txt-entry-total-exclude-tax').off('blur');
+    } else {
+        setAddOrderEntryButton(true);
+
+        $('#txt-entry-price-include-tax').removeClass('one-greater-required').addClass('one-greater-required');
+        $('#txt-entry-price-include-tax').off('blur').on('blur', function (e) {
+            isValidGreaterEqualToOne($(this), $('#feedback-entry-price-include-tax'),
+                'Price (incl tax) field should be greater than 0.', e);
+    
+            setAddOrderEntryButton(false);
+        });        
+
+        $('#txt-entry-price-exclude-tax').removeClass('one-greater-required').addClass('one-greater-required');
+        $('#txt-entry-price-exclude-tax').off('blur').on('blur', function (e) { 
+            isValidGreaterEqualToOne($(this), $('#feedback-entry-price-exclude-tax'),
+                'Price (excl tax) field should be greater than 0.', e);
+    
+            setAddOrderEntryButton(false);        
+        });        
+
+        $('#txt-entry-discount-include-tax').removeClass('zero-greater-required').addClass('zero-greater-required');
+        $('#txt-entry-discount-include-tax').off('blur').on('blur', function (e) { 
+            isValidGreaterEqualToZero($(this), $('#feedback-entry-discount-include-tax'),
+                'Discount (incl tax) field should be a positive number.', e);
+
+            setAddOrderEntryButton(false);                
+        });
+
+        $('#txt-entry-discount-exclude-tax').removeClass('zero-greater-required').addClass('zero-greater-required');
+        $('#txt-entry-discount-exclude-tax').off('blur').on('blur', function (e) {         
+            isValidGreaterEqualToZero($(this), $('#feedback-entry-discount-exclude-tax'),
+                'Discount (excl tax) field should be a positive number.', e);
+    
+            setAddOrderEntryButton(false);                
+        });
+
+        $('#txt-entry-total-include-tax').removeClass('one-greater-required').addClass('one-greater-required');
+        $('#txt-entry-total-include-tax').off('blur').on('blur', function (e) { 
+            isValidGreaterEqualToOne($(this), $('#feedback-entry-total-include-tax'),
+                'Total (incl tax) field should be greater than 0.', e);
+    
+            setAddOrderEntryButton(false);                
+        });
+
+        $('#txt-entry-total-exclude-tax').removeClass('one-greater-required').addClass('one-greater-required');
+        $('#txt-entry-total-exclude-tax').off('blur').on('blur', function (e) { 
+            isValidGreaterEqualToOne($(this), $('#feedback-entry-total-exclude-tax'),
+                'Total (excl tax) field should be greater than 0.', e);
+    
+            setAddOrderEntryButton(false);                        
+        });
+    }
+
+    $('#txt-entry-quantity').removeClass('one-greater-required').addClass('one-greater-required');
+    $('#txt-entry-quantity').off('blur').blur(function (e) { 
         isValidGreaterEqualToOne($(this), $('#feedback-entry-quantity'),
             'Quantity field should be greater than 0.', e);
 
         setAddOrderEntryButton(false);                
-    });
-
-    $('#txt-entry-discount-include-tax').blur(function (e) { 
-        isValidGreaterEqualToZero($(this), $('#feedback-entry-discount-include-tax'),
-            'Discount (incl tax) field should be a positive number.', e);
-
-        setAddOrderEntryButton(false);                
-    });
-
-    $('#txt-entry-discount-exclude-tax').blur(function (e) {         
-        isValidGreaterEqualToZero($(this), $('#feedback-entry-discount-exclude-tax'),
-            'Discount (excl tax) field should be a positive number.', e);
-
-        setAddOrderEntryButton(false);                
-    });
-
-    $('#txt-entry-total-include-tax').blur(function (e) { 
-        isValidGreaterEqualToOne($(this), $('#feedback-entry-total-include-tax'),
-            'Total (incl tax) field should be greater than 0.', e);
-
-        setAddOrderEntryButton(false);                
-    });
-
-    $('#txt-entry-total-exclude-tax').blur(function (e) { 
-        isValidGreaterEqualToOne($(this), $('#feedback-entry-total-exclude-tax'),
-            'Total (excl tax) field should be greater than 0.', e);
-
-        setAddOrderEntryButton(false);                        
-    });
+    });        
 }
 
 function setAddOrderEntryButton(isLoad) {
@@ -514,6 +549,109 @@ function setAddOrderEntryButton(isLoad) {
     }
 }
 
+// TODO: Update SL
+function createOrderDetailsFastFeedback() {
+    setOrderCreateButton(true);
+
+    $('#txt-order-company').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-company'), 
+            'Company field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-company'),
+                'Company must contain at least 3 characters.', e);
+        }
+
+        setOrderCreateButton(false);        
+    });
+
+    $('#sel-order-country').off('blur').on('blur', function (e) { 
+        hasSelectedOption($(this), $('#feedback-order-country'),
+                'Please select a country.', e);
+        
+        setOrderCreateButton(false);             
+    });
+
+    $('#sel-order-state').off('blur').on('blur', function (e) { 
+        hasSelectedOption($(this), $('#feedback-order-state'),
+                'Please select a state/province.', e);
+        
+        setOrderCreateButton(false);          
+    });
+
+    $('#txt-order-city').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-city'), 
+            'City field is required.', e)
+
+        setOrderCreateButton(false);        
+    });
+
+    $('#txt-order-address1').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-address1'), 
+            'Address 1 field is required.', e)
+
+        setOrderCreateButton(false);          
+    });
+
+    $('#txt-order-zip').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-zip'), 
+            'Zip/Postal Code field is required.', e)
+
+        setOrderCreateButton(false);         
+    });
+}
+
+// TODO: Judyll - Must update SL
+function setOrderCreateButton(isLoad) {
+    var createButton = $('#btn-create-order-details');
+
+    if (isLoad) {
+        createButton.attr('disabled', true);
+    } else {
+        var hasErrors = false;
+        // Select all elements that has the class .invalid-feedback inside
+        // the element which has the id #div-create-customer-control.  Make sure
+        // you will add the 'space' between #div-create-customer-control and .invalid-feedback
+        var feedBacks = $('#div-create-order-details-control .invalid-feedback');
+        $.each(feedBacks, function (index, fb) {
+            if (fb.innerText.length > 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        // jQuery - Get input value with specific class name - https://stackoverflow.com/questions/40957357/jquery-get-input-value-with-specific-class-name
+        $('#div-create-order-details-control .text-required').each(function () {
+            if ($(this).val().trim().length === 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        $('#div-create-order-details-control .select-required').each(function () {
+            if ($(this).children('option').length > 1 && $(this).val() <= 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        // var grid = $("#Grid").data("kendoGrid");
+        // var dataSource = grid.dataSource;
+        
+        // //records on current view / page   
+        // var recordsOnCurrentView = dataSource.view().length;
+        // //total records
+        // var totalRecords = dataSource.total();  
+        var grid = $('#div-product-order-grid').data('kendoGrid');
+        
+        if (!grid || grid.dataSource.total() < 1) {
+            hasErrors = true;
+        }
+
+        createButton.attr('disabled', hasErrors);
+    }
+}
+
 function isValidGreaterEqualToOne(inputElement, feedbackElement, message, event) {
     if (!isInputGreaterOrEqual(inputElement.val(), 1)) {
         inputElement.addClass('is-invalid');
@@ -544,9 +682,11 @@ function isInputGreaterOrEqual(input, compareValue) {
     return input >= compareValue;
 }
 
-function showCustomerSearchResult(searchKey) {
-    $('#div-product-order-create-message').hide();
+function isNormalOrderType() {
+    return $('#sel-order-type-select').val() === 'normal';
+}
 
+function showCustomerSearchResult(searchKey) {
     // TODO: Judyll - Add an ajax call to search for the customer here.
 
     $('#div-customer-result').show(500);
@@ -554,7 +694,7 @@ function showCustomerSearchResult(searchKey) {
     goToByScroll('div-customer-result');
 }
 
-function selectCustomerAndShowOrderDetailsPanel(customerId) {
+function selectCustomerAndInitOrderTypeSelect(customerId) {
 
     // TODO: Judyll - Must create an ajax call that gets the customer details
     // based on the given customer id
@@ -572,14 +712,68 @@ function selectCustomerAndShowOrderDetailsPanel(customerId) {
         Phone: 'PhoneOrderEntry'
     };
 
-    showOrderDetailsPanel(customerData);
+    initOrderTypeSelect(customerData);
 }
 
-function showOrderDetailsPanel(customerData) {
-    $('#div-search-customer-panel').hide();
+function showOrderDetailsPanel() {
+    $('#div-order-type-select-panel').hide();
     $('#div-order-details-panel').show(500);
     
+    // TODO: Must change to an ajax call
+    var ddlOrderType = $('#sel-order-type-add');
+    ddlOrderType.html('');
+    ddlOrderType.append($('<option></option>').val('normal').html('Normal'));
+    ddlOrderType.append($('<option></option>').val('samples').html('Samples'));
+    ddlOrderType.append($('<option></option>').val('stock').html('Stock'));
+    ddlOrderType.append($('<option></option>').val('amazon').html('Amazon'));
+    ddlOrderType.append($('<option></option>').val('replen').html('Replen'));
+    ddlOrderType.append($('<option></option>').val('bbby-replen').html('BBBY Replen'));
+    ddlOrderType.append($('<option></option>').val('replacement-pairs').html('Replacement Pairs 3'));
+
+    ddlOrderType.val($('#sel-order-type-select').val());
+    ddlOrderType.attr('disabled', true);
+
     initProductSearch();
+    createAddProductFastFeedback();
+}
+
+function initCustomerSearch() {
+    $('#div-customer-result').hide();
+    $('#div-create-customer-control').hide();
+    $('#div-order-type-select-panel').hide();
+    $('#div-order-details-panel').hide();
+    $('#sel-create-state').attr('disabled', true);
+
+    $('#h4-customer-panel-text').text('Search Customer');
+    $('#div-search-customer-panel').show();
+    $('#div-customer-search').show(500);
+    $('#txt-search-customer').val('');
+    $('#txt-search-customer').focus();
+
+    goToByScroll('div-customer-search');
+
+    resetFastFeedback();
+}
+
+function initOrderTypeSelect(customerData) {
+    $('#div-search-customer-panel').hide();
+    $('#div-order-type-select-panel').show(500);
+    $('#btn-proceed-order-type').attr('disabled', true);
+
+    // TODO: Must change to an ajax call
+    var ddlOrderType = $('#sel-order-type-select');
+    ddlOrderType.html('');
+    ddlOrderType.append($('<option></option>').val('normal').html('Normal'));
+    ddlOrderType.append($('<option></option>').val('samples').html('Samples'));
+    ddlOrderType.append($('<option></option>').val('stock').html('Stock'));
+    ddlOrderType.append($('<option></option>').val('amazon').html('Amazon'));
+    ddlOrderType.append($('<option></option>').val('replen').html('Replen'));
+    ddlOrderType.append($('<option></option>').val('bbby-replen').html('BBBY Replen'));
+    ddlOrderType.append($('<option></option>').val('replacement-pairs').html('Replacement Pairs 3'));
+
+    goToByScroll('sel-order-type-select');
+
+    $('#btn-proceed-order-type').attr('disabled', false);
 
     // Assign the retrieved customer values in the control
     $('#hdn-order-customer-id').val(customerData.Id)
@@ -613,33 +807,15 @@ function showOrderDetailsPanel(customerData) {
     $('#txt-order-address1').val(customerData.Address1);
     $('#txt-order-address2').val(customerData.Address2);
     $('#txt-order-zip').val(customerData.ZipPostalCode);
-    $('#txt-order-phone').val(customerData.Phone);
+    $('#txt-order-phone').val(customerData.Phone);    
 
-    createAddProductFastFeedback();
-}
-
-function initCustomerSearch() {
-    $('#div-customer-result').hide();
-    $('#div-create-customer-control').hide();
-    $('#div-order-details-panel').hide();
-    $('#div-product-order-create-message').hide();
-    $('#sel-create-state').attr('disabled', true);
-
-    $('#h4-customer-panel-text').text('Search Customer');
-    $('#div-search-customer-panel').show();
-    $('#div-customer-search').show(500);
-    $('#txt-search-customer').val('');
-    $('#txt-search-customer').focus();
-
-    goToByScroll('div-customer-search');
-
-    resetFastFeedback();
+    // TODO: Update SL
+    createOrderDetailsFastFeedback();
 }
 
 function initProductSearch() {
     $('#div-product-result').hide();
     $('#div-product-order-entry').hide();
-    $('#div-product-order-entry-message').hide();
 
     $('#h4-product-panel-text').text('Search Product to Order');
     $('#div-product-search').show(500);
@@ -652,8 +828,6 @@ function initProductSearch() {
 }
 
 function showProductSearchResult(searchKey) {
-    $('#div-product-order-entry-message').hide();
-
     // TODO-JUDYLL: Add an ajax call to search for the product here.
 
     $('#div-product-result').show(500);
@@ -677,7 +851,6 @@ function selectProductAndShowProductOrderEntry(productId) {
 function showProductOrderEntry(productData) {
     $('#div-product-result').hide();
     $('#div-product-search').hide();
-    $('#div-product-order-entry-message').hide();
     $('#h4-product-panel-text').text('Product Order Entry');
 
     $('#div-product-order-entry').show(500);
@@ -696,9 +869,37 @@ function showProductOrderEntry(productData) {
     $('#txt-entry-discount-exclude-tax').val(0.00);
     $('#txt-entry-total-include-tax').val(18.50);
     $('#txt-entry-total-exclude-tax').val(18.50);
+
+    if (!isNormalOrderType()) {
+        $('#txt-entry-price-include-tax').val(0.00);
+        $('#txt-entry-price-include-tax').attr('disabled', true);
+
+        $('#txt-entry-price-exclude-tax').val(0.00);
+        $('#txt-entry-price-exclude-tax').attr('disabled', true);
+
+        $('#txt-entry-quantity').focus();
+
+        $('#txt-entry-discount-include-tax').val(0.00);
+        $('#txt-entry-discount-include-tax').attr('disabled', true);
+
+        $('#txt-entry-discount-exclude-tax').val(0.00);
+        $('#txt-entry-discount-exclude-tax').attr('disabled', true);
+
+        $('#txt-entry-total-include-tax').val(0.00);
+        $('#txt-entry-total-include-tax').attr('disabled', true);
+
+        $('#txt-entry-total-exclude-tax').val(0.00);
+        $('#txt-entry-total-exclude-tax').attr('disabled', true);
+    } else {
+        $('#txt-entry-price-include-tax').attr('disabled', false);
+        $('#txt-entry-price-exclude-tax').attr('disabled', false);
+        $('#txt-entry-discount-include-tax').attr('disabled', false);
+        $('#txt-entry-discount-exclude-tax').attr('disabled', false);
+        $('#txt-entry-total-include-tax').attr('disabled', false);
+        $('#txt-entry-total-exclude-tax').attr('disabled', false);
+    }
 }
 
-// TODO: Judyll -- Must add to SL
 function resetAddProductToOrderForm() {
     $('#hdn-entry-product-id').val(0);
     $('#txt-entry-product-name').val('');
@@ -715,7 +916,11 @@ function resetAddProductToOrderForm() {
     $('#btn-add-order-entry').attr('disabled', true);
 }
 
-function goToByScroll(id){
+function removeProductFromOrder(productOrderGuid) {
+    // Add an ajax call that removes the product from the order list
+}
+
+function goToByScroll(id) {
     //SOURCE: https://stackoverflow.com/questions/3432656/scroll-to-a-div-using-jquery
     $('html,body').animate({ scrollTop: $("#"+id).offset().top },
     'slow');

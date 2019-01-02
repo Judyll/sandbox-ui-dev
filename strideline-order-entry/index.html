@@ -19,6 +19,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
+    <!-- Toaster notification -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
     <title>Strideline Order Entry View</title>
 
     </head>
@@ -260,15 +264,42 @@
                                     <button id="btn-cancel-customer" class="btn btn-danger form-control">Cancel</button>
                                 </div>
                             </div>                         
-                        </div>                        
-                        
-                        <div id="div-product-order-create-message">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <hr>
-                                    <p>The order has been created successfully.</p>
-                                </div>
-                            </div>                            
+                        </div>   
+                    </div>
+                </div>
+            </div>
+
+            <div id="div-order-type-select-panel" class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="panel-container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 class="text-center">Select Order Type</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="sel-order-type-select">
+                                    Order Type
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <select id="sel-order-type-select" class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-sm-12">                                
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row top-5">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-3" style="padding-right: 1px;">
+                                <button id="btn-proceed-order-type" class="btn btn-primary form-control">Proceed</button>
+                            </div>
+                            <div class="col-sm-3" style="padding-left: 1px;">
+                                <button id="btn-cancel-order-type" class="btn btn-danger form-control">Cancel</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -472,14 +503,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="div-product-order-entry-message">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <hr>
-                                    <p>Product has been added to the order.  Please check the Order Details panel.</p>
-                                </div>
-                            </div>                            
-                        </div>
                     </div>
                 </div>
 
@@ -488,7 +511,8 @@
                     where it contains all the details of the order
                 -->
                 <div class="col-sm-6">
-                    <div class="panel-container">
+                    <!--TODO: Judyll - Must update to SL-->
+                    <div id="div-create-order-details-control" class="panel-container">
                         <div class="row">
                             <div class="col-sm-12">
                                 <h4 class="text-center">Order Details</h4>
@@ -497,21 +521,12 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label for="sel-order-type">
+                                <label for="sel-order-type-add">
                                     Order Type
                                 </label>
                             </div>
                             <div class="col-sm-8">
-                                <!--
-                                    Change to the CustomerId dropdown
-                                -->
-                                <select id="sel-order-type" class="form-control">
-                                    <option value="samples">Samples</option>
-                                    <option value="stock">Stock</option>
-                                    <option value="amazon">Amazon</option>
-                                    <option value="replen">Replen</option>
-                                    <option value="bbby-replen">BBBY Replen</option>
-                                    <option value="replacement-pairs">Replacement Pairs 3</option>
+                                <select id="sel-order-type-add" class="form-control">
                                 </select>
                             </div>
                             <div class="col-sm-12">                                
@@ -568,10 +583,12 @@
                                     Company
                                 </label>
                             </div>
+                            <!--TODO: Update SL-->
                             <div class="col-sm-8">
                                 <input id="txt-order-company"
-                                    class="form-control"
+                                    class="form-control text-required"
                                     type="text">
+                                <span id="feedback-order-company" class="invalid-feedback"></span>
                             </div>
                         </div>   
                         <div class="row top-5">
@@ -581,12 +598,13 @@
                                 </label>
                             </div>
                             <div class="col-sm-8">
-                                <!--TODO-JUDYLL: Change this to retrieve data from the server-->
-                                <select id="sel-order-country" class="form-control">
+                                <!--TODO: Update SL-->
+                                <select id="sel-order-country" class="form-control select-required">
                                     <option value="0">Select country</option>
                                     <option value="239">Afghanistan</option>
                                     <option value="238" selected>Australia</option>
                                 </select>
+                                <span id="feedback-order-country" class="invalid-feedback"></span>
                             </div>
                         </div>  
                         <div class="row top-5">
@@ -596,10 +614,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-8">
-                                <!--TODO-JUDYLL: Change this to retrieve data from the server-->
-                                <select id="sel-order-state" class="form-control">
+                                <!--TODO: Update SL-->
+                                <select id="sel-order-state" class="form-control select-required">
                                     <option value="0">Other (Non US)</option>
                                 </select>
+                                <span id="feedback-order-state" class="invalid-feedback"></span>
                             </div>
                         </div>  
                         <div class="row top-5">
@@ -609,9 +628,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-8">
+                                <!--TODO: Update SL-->
                                 <input id="txt-order-city"
-                                    class="form-control"
+                                    class="form-control text-required"
                                     type="text">
+                                <span id="feedback-order-city" class="invalid-feedback"></span>
                             </div>
                         </div>  
                         <div class="row top-5">
@@ -621,9 +642,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-8">
+                                <!--TODO: Update SL-->
                                 <input id="txt-order-address1"
-                                    class="form-control"
+                                    class="form-control text-required"
                                     type="text">
+                                <span id="feedback-create-address1" class="invalid-feedback"></span>
                             </div>
                         </div>  
                         <div class="row top-5">
@@ -645,9 +668,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-8">
+                                <!--TODO: Update SL-->
                                 <input id="txt-order-zip"
                                     class="form-control"
                                     type="text">
+                                <span id="feedback-order-zip" class="invalid-feedback"></span>
                             </div>
                         </div>    
                         <div class="row top-5">
@@ -666,7 +691,7 @@
                             </div>
                         </div>
                         <div class="row top-5">
-                            <div id="div-product-order-grid"class="col-sm-12">
+                            <div id="div-product-order-grid" class="col-sm-12">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -687,7 +712,7 @@
                                             <td>18.00</td>
                                             <td>
                                                 <button class="remove-product btn btn-default form-control" data-product-id="9640">
-                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                    <span class="glyphicon glyphicon-chevron-right"></span>
                                                 </button>
                                             </td>
                                         </tr>
@@ -723,7 +748,7 @@
                         <div class="row top-5">
                             <div class="col-sm-6"></div>
                             <div class="col-sm-3" style="padding-right: 1px;">
-                                <button id="btn-add-order-details" class="btn btn-primary form-control">Add</button>
+                                <button id="btn-create-order-details" class="btn btn-primary form-control">Create</button>
                             </div>
                             <div class="col-sm-3" style="padding-left: 1px;">
                                 <button id="btn-cancel-order-details" class="btn btn-danger form-control">Cancel</button>
