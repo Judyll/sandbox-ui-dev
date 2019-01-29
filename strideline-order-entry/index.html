@@ -257,11 +257,15 @@
                             </div>  
                             <div class="row top-5">
                                 <div class="col-sm-6"></div>
-                                <div class="col-sm-3" style="padding-right: 1px;">
-                                    <button id="btn-create-customer" class="btn btn-primary form-control">Create</button>
+                                <!--TODO: Update SL-->
+                                <div class="col-sm-4" style="padding-right: 1px;">
+                                    <button id="btn-create-customer" class="btn btn-primary form-control">Create Customer</button>
                                 </div>
-                                <div class="col-sm-3" style="padding-left: 1px;">
-                                    <button id="btn-cancel-customer" class="btn btn-danger form-control">Cancel</button>
+                                <div class="col-sm-2" style="padding-left: 1px;">
+                                    <button id="btn-cancel-customer" 
+                                    class="btn btn-danger form-control">
+                                    Cancel
+                                </button>
                                 </div>
                             </div>                         
                         </div>   
@@ -288,17 +292,32 @@
                                 <select id="sel-order-type-select" class="form-control">
                                 </select>
                             </div>
+                        </div>
+                        <div class="row top-5">
+                            <div class="col-sm-4">
+                                <label for="sel-sales-rep-select">
+                                    Sales Rep
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <select id="sel-sales-rep-select" class="form-control">
+                                </select>
+                            </div>
                             <div class="col-sm-12">                                
                                 <hr>
                             </div>
                         </div>
                         <div class="row top-5">
                             <div class="col-sm-6"></div>
-                            <div class="col-sm-3" style="padding-right: 1px;">
-                                <button id="btn-proceed-order-type" class="btn btn-primary form-control">Proceed</button>
+                            <!--TODO: Update SL-->
+                            <div class="col-sm-4" style="padding-right: 1px;">
+                                <button id="btn-proceed-order-type" class="btn btn-primary form-control">Next Step</button>
                             </div>
-                            <div class="col-sm-3" style="padding-left: 1px;">
-                                <button id="btn-cancel-order-type" class="btn btn-danger form-control">Cancel</button>
+                            <div class="col-sm-2" style="padding-left: 1px;">
+                                <button id="btn-cancel-order-type" 
+                                class="btn btn-danger form-control">
+                                Cancel
+                            </button>
                             </div>
                         </div>
                     </div>
@@ -401,12 +420,12 @@
                             </div>                                                     
                             <div class="row top-5">
                                 <div class="col-sm-4">
-                                    <label for="txt-entry-price-include-tax">
+                                    <label for="txt-entry-price">
                                         Price (incl tax)
                                     </label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input id="txt-entry-price-include-tax"
+                                    <input id="txt-entry-price"
                                         class="form-control one-greater-required"
                                         type="number">
                                     <span id="feedback-entry-price-include-tax" class="invalid-feedback"></span>
@@ -436,6 +455,19 @@
                                         class="form-control one-greater-required"
                                         type="number">
                                     <span id="feedback-entry-quantity" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                            <div id="div-entry-price" class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-entry-price">
+                                        Price
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-entry-price"
+                                           class="form-control one-greater-required"
+                                           type="number">
+                                    <span id="feedback-entry-price-include-tax" class="invalid-feedback"></span>
                                 </div>
                             </div>
                             <div class="row top-5">
@@ -495,11 +527,16 @@
                             </div>
                             <div class="row top-5">
                                 <div class="col-sm-6"></div>
-                                <div class="col-sm-3" style="padding-right: 1px;">
-                                    <button id="btn-add-order-entry" class="btn btn-primary form-control">Add</button>
+                                <!--TODO: Update SL-->
+                                <div class="col-sm-4" style="padding-right: 1px;">
+                                    <button id="btn-add-order-entry" class="btn btn-primary form-control">Order Product</button>
                                 </div>
-                                <div class="col-sm-3" style="padding-left: 1px;">
-                                    <button id="btn-cancel-order-entry" class="btn btn-danger form-control">Cancel</button>
+                                <div class="col-sm-2" style="padding-left: 1px;">
+                                    <button id="btn-cancel-order-entry"
+                                    class="btn btn-danger form-control"
+                                    style="padding-left: 9px;">
+                                    Cancel
+                                </button>
                                 </div>
                             </div>
                         </div>
@@ -511,7 +548,6 @@
                     where it contains all the details of the order
                 -->
                 <div class="col-sm-6">
-                    <!--TODO: Judyll - Must update to SL-->
                     <div id="div-create-order-details-control" class="panel-container">
                         <div class="row">
                             <div class="col-sm-12">
@@ -532,7 +568,7 @@
                             <div class="col-sm-12">                                
                                 <hr>
                             </div>
-                        </div>
+                        </div>                        
                         <input id="hdn-order-customer-id" type="hidden">
                         <div class="row top-5">
                             <div class="col-sm-4">
@@ -576,121 +612,329 @@
                                 <hr>
                             </div>
                         </div> 
-                        <input id="hdn-order-address-id" type="hidden">
                         <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="txt-order-company">
-                                    Company
-                                </label>
-                            </div>
-                            <!--TODO: Update SL-->
-                            <div class="col-sm-8">
-                                <input id="txt-order-company"
-                                    class="form-control text-required"
-                                    type="text">
-                                <span id="feedback-order-company" class="invalid-feedback"></span>
-                            </div>
-                        </div>   
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="sel-order-country">
-                                    Country
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <!--TODO: Update SL-->
-                                <select id="sel-order-country" class="form-control select-required">
-                                    <option value="0">Select country</option>
-                                    <option value="239">Afghanistan</option>
-                                    <option value="238" selected>Australia</option>
-                                </select>
-                                <span id="feedback-order-country" class="invalid-feedback"></span>
+                            <div class="col-sm-12">
+                                <ul id="shipping-billing-tab" class="nav nav-tabs">
+                                    <li id="billing-list" class="active">
+                                        <a data-toggle="tab" 
+                                            href="#"
+                                            onclick="activeBillingTab()">                                            
+                                            Billing Address
+                                        </a>
+                                    </li>
+                                    <li id="shipping-list" >
+                                        <a data-toggle="tab" 
+                                            href="#"
+                                            onclick="activateShippingTab()">
+                                            Shipping Address
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>  
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="sel-order-state">
-                                    State / province
-                                </label>
+                        <!--TODO: Update SL-->                                 
+                        <div class="tab-content">
+                            <div id="billing-tab" class="tab-pane fade in active">
+                                <input id="hdn-order-billing-address-id" type="hidden">
+                                <div class="row top-5"> 
+                                    <div class="col-sm-12">
+                                        <select id="sel-order-billing-address-select" class="form-control billing-address-for-order">
+                                            <option value="1" selected>Judyll Agan, Bantayan, Dumaguete City</option>
+                                            <option value="S2">Judyll Agan, USA, Dumaguete City</option>
+                                            <option value="-1">*** CREATE NEW BILLING ADDRESS ***</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 billing-address-for-create-new">
+                                        <h4 class="text-center">Create New Billing Address</h4>
+                                    </div>
+                                    <div class="col-sm-12">                                
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row top-5 billing-address-for-create-new">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-last-name">
+                                            Last Name
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-last-name"
+                                            class="form-control"
+                                            type="text">
+                                    </div>
+                                </div>
+                                <div class="row top-5 billing-address-for-create-new">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-first-name">
+                                            First Name
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-first-name"
+                                            class="form-control"
+                                            type="text">
+                                    </div>
+                                </div>                            
+                                <div class="row top-5 billing-address-for-create-new">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-email">
+                                            Email
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-email"
+                                            class="form-control"
+                                            type="text">
+                                    </div>
+                                    <div class="col-sm-12">                                
+                                        <hr>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-company">
+                                            Company
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-company"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-billing-company" class="invalid-feedback"></span>
+                                    </div>
+                                </div>   
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="sel-order-billing-country">
+                                            Country
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="sel-order-billing-country" class="form-control select-required">
+                                            <option value="0">Select country</option>
+                                            <option value="239">Afghanistan</option>
+                                            <option value="238" selected>Australia</option>
+                                        </select>
+                                        <span id="feedback-order-billing-country" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="sel-order-billing-state">
+                                            State / province
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="sel-order-billing-state" class="form-control select-required">
+                                            <option value="0">Other (Non US)</option>
+                                        </select>
+                                        <span id="feedback-order-billing-state" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-city">
+                                            City
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-city"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-billing-city" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-address1">
+                                            Address 1
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-address1"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-billing-address1" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-address2">
+                                            Address 2
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-address2"
+                                            class="form-control"
+                                            type="text">
+                                    </div>
+                                </div> 
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-zip">
+                                            Zip / postal code
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-zip"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-billing-zip" class="invalid-feedback"></span>
+                                    </div>
+                                </div>    
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-billing-phone">
+                                            Phone number
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-billing-phone"
+                                            class="form-control"
+                                            type="text">
+                                    </div>                            
+                                </div>                                    
+                                <div class="row top-5 billing-address-for-create-new">
+                                    <div class="col-sm-12">                                
+                                        <hr>
+                                    </div>                            
+                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-4" style="padding-right: 1px;">
+                                        <button id="btn-create-order-billing-address" class="btn btn-primary form-control">Create Address</button>
+                                    </div>
+                                    <div class="col-sm-2" style="padding-left: 1px;">
+                                        <button id="btn-cancel-order-billing-address" 
+                                            class="btn btn-danger form-control"
+                                            style="padding-left: 9px;">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-                                <!--TODO: Update SL-->
-                                <select id="sel-order-state" class="form-control select-required">
-                                    <option value="0">Other (Non US)</option>
-                                </select>
-                                <span id="feedback-order-state" class="invalid-feedback"></span>
+                            <div id="shipping-tab" class="tab-pane fade in">
+                                <input id="hdn-order-shipping-address-id" type="hidden">
+                                <div class="row top-5"> 
+                                    <div class="col-sm-12">
+                                        <select id="sel-order-shipping-address-select" class="form-control">
+                                            <option value="1" selected>Judyll Agan, Bantayan, Dumaguete City</option>
+                                            <option value="1">Judyll Agan, USA, Dumaguete City</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12">                                
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-shipping-company">
+                                            Company
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-shipping-company"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-shipping-company" class="invalid-feedback"></span>
+                                    </div>
+                                </div>   
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="sel-order-shipping-country">
+                                            Country
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="sel-order-shipping-country" class="form-control select-required">
+                                            <option value="0">Select country</option>
+                                            <option value="239">Afghanistan</option>
+                                            <option value="238" selected>Australia</option>
+                                        </select>
+                                        <span id="feedback-order-shipping-country" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="sel-order-shipping-state">
+                                            State / province
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="sel-order-shipping-state" class="form-control select-required">
+                                            <option value="0">Other (Non US)</option>
+                                        </select>
+                                        <span id="feedback-order-shipping-state" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-shipping-city">
+                                            City
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-shipping-city"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-shipping-city" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-shipping-address1">
+                                            Address 1
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-shipping-address1"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-shipping-address1" class="invalid-feedback"></span>
+                                    </div>
+                                </div>  
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-shipping-address2">
+                                            Address 2
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-shipping-address2"
+                                            class="form-control"
+                                            type="text">
+                                    </div>
+                                </div> 
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-shipping-zip">
+                                            Zip / postal code
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-shipping-zip"
+                                            class="form-control text-required"
+                                            type="text">
+                                        <span id="feedback-order-shipping-zip" class="invalid-feedback"></span>
+                                    </div>
+                                </div>    
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="txt-order-shipping-phone">
+                                            Phone number
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="txt-order-shipping-phone"
+                                            class="form-control"
+                                            type="text">
+                                    </div>                            
+                                </div>
                             </div>
-                        </div>  
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="txt-order-city">
-                                    City
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <!--TODO: Update SL-->
-                                <input id="txt-order-city"
-                                    class="form-control text-required"
-                                    type="text">
-                                <span id="feedback-order-city" class="invalid-feedback"></span>
-                            </div>
-                        </div>  
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="txt-order-address1">
-                                    Address 1
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <!--TODO: Update SL-->
-                                <input id="txt-order-address1"
-                                    class="form-control text-required"
-                                    type="text">
-                                <span id="feedback-create-address1" class="invalid-feedback"></span>
-                            </div>
-                        </div>  
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="txt-order-address2">
-                                    Address 2
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <input id="txt-order-address2"
-                                    class="form-control"
-                                    type="text">
-                            </div>
-                        </div> 
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="txt-order-zip">
-                                    Zip / postal code
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <!--TODO: Update SL-->
-                                <input id="txt-order-zip"
-                                    class="form-control"
-                                    type="text">
-                                <span id="feedback-order-zip" class="invalid-feedback"></span>
-                            </div>
-                        </div>    
-                        <div class="row top-5">
-                            <div class="col-sm-4">
-                                <label for="txt-order-phone">
-                                    Phone number
-                                </label>
-                            </div>
-                            <div class="col-sm-8">
-                                <input id="txt-order-phone"
-                                    class="form-control"
-                                    type="text">
-                            </div>
+                        </div>                       
+                        <!--TODO: Update SL--> 
+                        <div class="row top-5 general-fields-for-order">
                             <div class="col-sm-12">                                
                                 <hr>
                             </div>
-                        </div>
-                        <div class="row top-5">
                             <div id="div-product-order-grid" class="col-sm-12">
                                 <table class="table table-striped">
                                     <thead>
@@ -745,15 +989,161 @@
                                 <hr>
                             </div>
                         </div>
-                        <div class="row top-5">
+                        <!--TODO: Update SL--> 
+                        <div class="row top-5 general-fields-for-order">
+                            <div class="col-sm-4">
+                                <label>
+                                    Shipping Options
+                                </label>
+                            </div>
+                            <div class="col-sm-8">                                
+                                <fieldset id="fset-shipping-options">
+                                    <div class="row">
+                                        <div class="col-sm-1">
+                                            <input type="radio" class="shipping-options" value="shipping1" name="fset-shipping-options" checked>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            Shipping 1
+                                        </div>
+                                        <br>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-sm-1">
+                                            <input type="radio" class="shipping-options" value="shipping2" name="fset-shipping-options" checked>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            Shipping 2
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1">
+                                            <input type="radio" class="shipping-options" value="shipping3" name="fset-shipping-options" checked>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            Shipping 3
+                                        </div>
+                                        <br>
+                                    </div>
+                                </fieldset>                                
+                            </div>
+                        </div>
+                        <!--TODO: Update SL--> 
+                        <div id="div-corp-details" class="general-fields-for-order">
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-order-shipping-rate">
+                                        Shipping Rate
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-order-shipping-rate"
+                                        class="form-control zero-greater-required"
+                                        type="number">
+                                    <span id="feedback-txt-order-shipping-rate" class="invalid-feedback"></span>
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="sel-order-po-type">
+                                        PO Type
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select id="sel-order-po-type" class="form-control">
+                                    </select>
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="date-order-start-ship">
+                                        Start Ship Date
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="date-order-start-ship"
+                                        class="form-control"
+                                        type="date">                                    
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="date-order-cancel">
+                                        Cancel Date
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="date-order-cancel"
+                                        class="form-control"
+                                        type="date">                                    
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-order-payment-terms">
+                                        Payment Terms
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-order-payment-terms"
+                                        class="form-control"
+                                        type="text">                                    
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="txt-order-po-number">
+                                        Retail PO Number
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="txt-order-po-number"
+                                        class="form-control"
+                                        type="text">                                    
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="sel-sales-rep-add">
+                                        Sales Rep
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select id="sel-sales-rep-add" class="form-control">
+                                    </select>
+                                </div>                                
+                            </div>
+                            <div class="row top-5">
+                                <div class="col-sm-4">
+                                    <label for="file-order-po-file">
+                                        Upload PO File
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="file-order-po-file"
+                                        class="form-control"
+                                        type="file"
+                                        name="file">                                    
+                                </div>                                
+                            </div>                            
+                        </div>
+                        <!--TODO: Update SL-->
+                        <div class="row top-5 general-fields-for-order">
+                            <div class="col-sm-12">                                
+                                <hr>
+                            </div>                            
                             <div class="col-sm-6"></div>
-                            <div class="col-sm-3" style="padding-right: 1px;">
-                                <button id="btn-create-order-details" class="btn btn-primary form-control">Create</button>
+                            <div class="col-sm-4" style="padding-right: 1px;">
+                                <button id="btn-create-order-details" class="btn btn-primary form-control">Create Order</button>
                             </div>
-                            <div class="col-sm-3" style="padding-left: 1px;">
-                                <button id="btn-cancel-order-details" class="btn btn-danger form-control">Cancel</button>
+                            <div class="col-sm-2" style="padding-left: 1px;">
+                                <button id="btn-cancel-order-details" 
+                                    class="btn btn-danger form-control"
+                                    style="padding-left: 9px;">
+                                    Cancel
+                                </button>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 </div>
             </div>            
