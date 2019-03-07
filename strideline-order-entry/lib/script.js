@@ -152,7 +152,6 @@ $(document).ready(function () {
         resetAddProductToOrderForm();
     });
 
-    // TODO: Update SL
     $('#sel-order-billing-address-select').on('change', function (e) {
         if ($(this).val() > 0) {
             var param = {
@@ -205,7 +204,7 @@ $(document).ready(function () {
             //     }).fail(function () {
             //         toastr.error('Failed to load address details.');
             //     });
-            goToByScroll('billing-tab');
+            goToByScroll('div-billing-tab');
 
             $('#txt-order-billing-company').focus();
         } else if ($(this).val() < 0) {
@@ -222,21 +221,33 @@ $(document).ready(function () {
                 $(this).show();
             });
 
-            var txtInput = $('#billing-tab').find('input:text');
+            var txtInput = $('#div-billing-tab').find('input[type=text]');
             $.each(txtInput, function () {
                 $(this).val('');
-            });            
+            });
+            
+            if (isReplacementOrderType()) {
+                $('#txt-order-billing-company').val('Web Store');
+            } 
+            
+            goToByScroll('div-billing-tab');
 
-            goToByScroll('billing-tab');
+            $('#txt-order-billing-last-name').val($('#txt-order-last-name').val());
+            $('#txt-order-billing-first-name').val($('#txt-order-first-name').val());
+            $('#txt-order-billing-email').val($('#txt-order-email').val());
 
             $('#txt-order-billing-last-name').focus();
             $('#sel-order-billing-country, #sel-order-billing-state').val(0);
             $('#sel-order-billing-state, #txt-search-product, #btn-search-product').attr('disabled', true);
             $('#shipping-list').hide();
+            $('#div-corp-details').hide();
+
+            resetFastFeedback(true);
+            createBillingAddressFastFeedback();
         }
     });
 
-    $('#billing-tab').on('click', function () {
+    $('#div-billing-tab').on('click', function () {
         
     });
 
@@ -281,7 +292,37 @@ $(document).ready(function () {
         ddlStates.append($('<option></option>').val(2).html('State 2'));
     });
 
-    // TODO: Update SL
+    $('#btn-create-order-billing-address').on('click', function () {
+        var forOrder = $('.billing-address-for-order, .general-fields-for-order');
+        $.each(forOrder, function () {
+            $(this).show();
+        });
+
+        var forCreate = $('.billing-address-for-create-new');
+        $.each(forCreate, function () {
+            $(this).hide();
+        });
+
+        // saves the new billing address
+        // populate the billing dropdown with the new address added and now selecting the new address
+        // populate the shipping dropdown with the new address added and selecting previous shipping
+        // fill the rest of the billing fields
+
+        // Check if this is needed when populate is done        
+        $('#txt-order-billing-last-name').val($('#txt-order-last-name').val());
+        $('#txt-order-billing-first-name').val($('#txt-order-first-name').val());
+        $('#txt-order-billing-email').val($('#txt-order-email').val());
+
+        $('#sel-order-billing-address-select').focus();
+        $('#txt-search-product, #btn-search-product').attr('disabled', false);
+        $('#shipping-list').show();
+
+        resetFastFeedback(true);
+        createOrderDetailsFastFeedback();
+
+        toastr.success('Billing Address has been created.');
+    });
+
     $('#btn-cancel-order-billing-address').on('click', function () {
         var forOrder = $('.billing-address-for-order, .general-fields-for-order');
         $.each(forOrder, function () {
@@ -294,12 +335,22 @@ $(document).ready(function () {
         });
 
         // Add ajax call to get the previous billing address
+        // fill the billing fields same as in the function
+        // $('#sel-order-billing-address-select').on('change', function (e) {
 
-        goToByScroll('billing-tab');
+        goToByScroll('div-billing-tab');
 
-        $('#txt-order-billing-last-name').focus();
+        // Check if this is needed when populate is done        
+        $('#txt-order-billing-last-name').val($('#txt-order-last-name').val());
+        $('#txt-order-billing-first-name').val($('#txt-order-first-name').val());
+        $('#txt-order-billing-email').val($('#txt-order-email').val());
+
+        $('#sel-order-billing-address-select').focus();
         $('#txt-search-product, #btn-search-product').attr('disabled', false);
         $('#shipping-list').show();
+
+        resetFastFeedback(true);
+        createOrderDetailsFastFeedback();
     });
 
     $('#btn-create-order-details').on('click', function () {
@@ -407,14 +458,14 @@ function createCustomerFastFeedback() {
         setCustomerCreateButton(false);        
     });
 
-    $('#sel-create-country').off('blur').on('blur', function (e) { 
+    $('#sel-create-country').off('input blur').on('input blur', function (e) { 
         hasSelectedOption($(this), $('#feedback-create-country'),
                 'Please select a country.', e);
         
         setCustomerCreateButton(false);             
     });
 
-    $('#sel-create-state').off('blur').on('blur', function (e) { 
+    $('#sel-create-state').off('input blur').on('input blur', function (e) { 
         hasSelectedOption($(this), $('#feedback-create-state'),
                 'Please select a state/province.', e);
         
@@ -655,7 +706,6 @@ function createAddProductFastFeedback() {
     }       
 }
 
-// TODO: Update to SL
 function setQuantityFastFeedback(event) {
     var quantity = $('#txt-entry-quantity');
     var feedback = $('#feedback-entry-quantity');
@@ -731,6 +781,47 @@ function setAddOrderEntryButton(isLoad) {
 
 function createOrderDetailsFastFeedback() {
     setOrderCreateButton(true);
+
+    $('#txt-order-billing-last-name').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-last-name'), 
+            'Last Name field is required.', e);
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-billing-last-name'),
+                'Last Name must contain at least 3 characters.', e);
+        }
+
+        setOrderCreateButton(false);
+    });
+
+    $('#txt-order-billing-first-name').off('blur').on('blur', function (e) {         
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-first-name'), 
+            'First Name field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-billing-first-name'),
+                'First Name must contain at least 3 characters.', e);
+        }
+
+        setOrderCreateButton(false);
+    });
+
+    $('#txt-order-billing-email').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-email'), 
+            'Email field is required.', e)
+        
+        if (isValid) {
+            isValid = isValidEmail($(this), $('#feedback-order-billing-email'),
+                'Please enter a valid email.', e);
+        }
+
+        if (isValid && $(this).val() != $('txt-order-email').val()) {
+            emailAreadyExists($(this), $('#feedback-order-billing-email'),
+                'Email already exist.', e);
+        }
+
+        setOrderCreateButton(false);        
+    });
 
     $('#txt-order-billing-company').off('blur').on('blur', function (e) { 
         var isValid = hasValueTextField($(this), $('#feedback-order-billing-company'), 
@@ -848,6 +939,7 @@ function setOrderCreateButton(isLoad) {
         $.each(feedBacks, function (index, fb) {
             if (fb.innerText.length > 0) {
                 hasErrors = true;
+                console.log('INVALID FEEDBACK', fb);
                 return;
             }
         });
@@ -856,21 +948,15 @@ function setOrderCreateButton(isLoad) {
         $('#div-create-order-details-control .text-required').each(function () {
             if ($(this).val().trim().length === 0) {
                 hasErrors = true;
+                console.log('TEXT REQUIRED', $(this));
                 return;
             }
         });
 
         $('#div-create-order-details-control .select-required').each(function () {
             if ($(this).children('option').length > 1 && $(this).val() <= 0) {
-                hasErrors = true;
-                return;
-            }
-        });
-
-        // Check if fields with zero-greater-required has value lesser than zero
-        $('#div-create-order-details-control zero-greater-required').each(function() {
-            if (!isInputGreaterOrEqual($(this).val(), 0)) {
-                hasErrors = true;
+                hasErrors = true;                
+                console.log('SELECT REQUIRED', $(this));
                 return;
             }
         });
@@ -884,9 +970,193 @@ function setOrderCreateButton(isLoad) {
         // var totalRecords = dataSource.total();  
         var grid = $('#div-product-order-grid').data('kendoGrid');
         
-        if (!grid || grid.dataSource.total() < 1) {
-            hasErrors = true;
+        // if (!grid || grid.dataSource.total() < 1) {
+        //     hasErrors = true;
+        //     console.log('DATASOURCE', $(this));
+        // }
+
+        createButton.attr('disabled', hasErrors);
+    }
+}
+
+function createBillingAddressFastFeedback() {
+    setBillingCreateButton(true);
+
+    $('#txt-order-billing-last-name').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-last-name'), 
+            'Last Name field is required.', e);
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-billing-last-name'),
+                'Last Name must contain at least 3 characters.', e);
         }
+
+        setBillingCreateButton(false);
+    });
+
+    $('#txt-order-billing-first-name').off('blur').on('blur', function (e) {         
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-first-name'), 
+            'First Name field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-billing-first-name'),
+                'First Name must contain at least 3 characters.', e);
+        }
+
+        setBillingCreateButton(false);
+    });
+
+    $('#txt-order-billing-email').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-email'), 
+            'Email field is required.', e)
+        
+        if (isValid) {
+            isValid = isValidEmail($(this), $('#feedback-order-billing-email'),
+                'Please enter a valid email.', e);
+        }
+
+        if (isValid && $(this).val() != $('txt-order-email').val()) {
+            emailAreadyExists($(this), $('#feedback-order-billing-email'),
+                'Email already exist.', e);
+        }
+
+        setBillingCreateButton(false);        
+    });
+
+    $('#txt-order-billing-company').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-billing-company'), 
+            'Company field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-billing-company'),
+                'Company must contain at least 3 characters.', e);
+        }
+
+        setBillingCreateButton(false);        
+    });
+
+    $('#sel-order-billing-country').off('input blur').on('input blur', function (e) { 
+        hasSelectedOption($(this), $('#feedback-order-billing-country'),
+                'Please select a country.', e);
+        
+        setBillingCreateButton(false);             
+    });
+
+    $('#sel-order-billing-state').off('input blur').on('input blur', function (e) { 
+        hasSelectedOption($(this), $('#feedback-order-billing-state'),
+                'Please select a state/province.', e);
+        
+        setBillingCreateButton(false);          
+    });
+
+    $('#txt-order-billing-city').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-billing-city'), 
+            'City field is required.', e)
+
+        setBillingCreateButton(false);        
+    });
+
+    $('#txt-order-billing-address1').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-billing-address1'), 
+            'Address 1 field is required.', e)
+
+        setBillingCreateButton(false);          
+    });
+
+    $('#txt-order-billing-zip').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-billing-zip'), 
+            'Zip/Postal Code field is required.', e)
+
+        setBillingCreateButton(false);         
+    });
+
+    $('#txt-order-shipping-rate').off('blur').on('blur', function (e) { 
+        isValidGreaterEqualToOne($(this), $('#feedback-txt-order-shipping-rate'), 
+            'Shipping Rate field should be greater than 0.', e)
+
+        setBillingCreateButton(false);         
+    });
+
+    $('#txt-order-shipping-company').off('blur').on('blur', function (e) { 
+        var isValid = hasValueTextField($(this), $('#feedback-order-shipping-company'), 
+            'Company field is required.', e)
+        
+        if (isValid) {
+            isValidThreeChar($(this), $('#feedback-order-shipping-company'),
+                'Company must contain at least 3 characters.', e);
+        }
+
+        setBillingCreateButton(false);        
+    });
+
+    $('#sel-order-shipping-country').off('blur').on('blur', function (e) { 
+        hasSelectedOption($(this), $('#feedback-order-shipping-country'),
+                'Please select a country.', e);
+        
+        setBillingCreateButton(false);             
+    });
+
+    $('#sel-order-shipping-state').off('blur').on('blur', function (e) { 
+        hasSelectedOption($(this), $('#feedback-order-shipping-state'),
+                'Please select a state/province.', e);
+        
+        setBillingCreateButton(false);          
+    });
+
+    $('#txt-order-shipping-city').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-shipping-city'), 
+            'City field is required.', e)
+
+        setBillingCreateButton(false);        
+    });
+
+    $('#txt-order-shipping-address1').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-shipping-address1'), 
+            'Address 1 field is required.', e)
+
+        setBillingCreateButton(false);          
+    });
+
+    $('#txt-order-shipping-zip').off('blur').on('blur', function (e) { 
+        hasValueTextField($(this), $('#feedback-order-shipping-zip'), 
+            'Zip/Postal Code field is required.', e)
+
+        setBillingCreateButton(false);         
+    });
+}
+
+function setBillingCreateButton(isLoad) {
+    var createButton = $('#btn-create-order-billing-address');
+
+    if (isLoad) {
+        createButton.attr('disabled', true);
+    } else {
+        var hasErrors = false;
+        // Select all elements that has the class .invalid-feedback inside
+        // the element which has the id #div-billing-tab.  Make sure
+        // you will add the 'space' between #div-billing-tab and .invalid-feedback
+        var feedBacks = $('#div-billing-tab .invalid-feedback');
+        $.each(feedBacks, function (index, fb) {
+            if (fb.innerText.length > 0) {
+                hasErrors = true;
+                return;
+            }
+        });
+
+        // jQuery - Get input value with specific class name - https://stackoverflow.com/questions/40957357/jquery-get-input-value-with-specific-class-name
+        $('#div-billing-tab .text-required').each(function () {
+            if ($(this).val().trim().length === 0) {
+                hasErrors = true;
+                return false;
+            }
+        });
+
+        $('#div-billing-tab .select-required').each(function () {
+            if ($(this).children('option').length > 1 && $(this).val() <= 0) {
+                hasErrors = true;
+                return;
+            }
+        });
 
         createButton.attr('disabled', hasErrors);
     }
@@ -1005,22 +1275,22 @@ function initAddressTab() {
     $('#shipping-billing-tab li').removeClass('active');
     $('#shipping-billing-tab li:first').addClass('active');
     $('#shipping-billing-tab li').removeData('toggle').data('toggle', 'tab');
-    $('#billing-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in active');
-    $('#shipping-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in');
+    $('#div-billing-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in active');
+    $('#div-shipping-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in');
 }
 
 function activeBillingTab() {
     $('#billing-list').removeClass('active').addClass('active');
     $('#shipping-list').removeClass('active');
-    $('#billing-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in active');
-    $('#shipping-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in');
+    $('#div-billing-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in active');
+    $('#div-shipping-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in');
 }
 
 function activateShippingTab() {
     $('#billing-list').removeClass('active');
     $('#shipping-list').removeClass('active').addClass('active');
-    $('#billing-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in');
-    $('#shipping-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in active');
+    $('#div-billing-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in');
+    $('#div-shipping-tab').removeClass('tab-pane fade in active').addClass('tab-pane fade in active');
 }
 
 function initCustomerSearch() {
@@ -1047,7 +1317,7 @@ function initOrderTypeSelect(customerData) {
     $('#btn-proceed-order-type').attr('disabled', true);
     $('#txt-search-product, #btn-search-product').attr('disabled', false);
 
-    // TODO: Must change to an ajax call
+    // Must change to an ajax call
     var ddlOrderType = $('#sel-order-type-select');
     ddlOrderType.html('');
     ddlOrderType.append($('<option></option>').val('sales-order').html('Sales Order'));
@@ -1060,7 +1330,7 @@ function initOrderTypeSelect(customerData) {
 
     goToByScroll('sel-order-type-select');
 
-    // TODO: Update SL but use an ajax call
+    // Update SL but use an ajax call
     var ddlSalesRep = $('#sel-sales-rep-select');
     ddlSalesRep.html('');
     ddlSalesRep.append($('<option></option>').val('1').html('Rep 1'));
@@ -1075,7 +1345,7 @@ function initOrderTypeSelect(customerData) {
     $('#txt-order-email').val(customerData.Email);
     $('#txt-order-billing-company').val(customerData.Company);
 
-    // TODO: Judyll - Add the logic here that retrieves and 
+    // Add the logic here that retrieves and 
     // assigns the country and state id
 
     // Remove all the existing html elements in the #sel-create-country
@@ -1096,10 +1366,11 @@ function initOrderTypeSelect(customerData) {
 
     $('#sel-order-billing-state').val(customerData.StateProvinceId);
 
-    // TODO: Update SL
     $('#txt-order-billing-last-name').val(customerData.LastName);
     $('#txt-order-billing-first-name').val(customerData.FirstName);
     $('#txt-order-billing-email').val(customerData.Email);
+
+    // TODO: Judyll - Add the shipping last name, shipping first name, shipping email
 
     $('#txt-order-billing-city').val(customerData.City);
     $('#txt-order-billing-address1').val(customerData.Address1);
@@ -1107,7 +1378,7 @@ function initOrderTypeSelect(customerData) {
     $('#txt-order-billing-zip').val(customerData.ZipPostalCode);
     $('#txt-order-billing-phone').val(customerData.Phone);    
 
-    // TODO: Update SL
+    // TODO: Judyll - Add the shipping classes here
     var forOrder = $('.billing-address-for-order, .general-fields-for-order');
     $.each(forOrder, function () {
         $(this).show();
@@ -1125,7 +1396,6 @@ function initProductSearch() {
     $('#div-product-result').hide();
     $('#div-product-order-entry').hide();
 
-    // TODO: Update SL
     $('#txt-search-product, #btn-search-product').attr('disabled', false);
     $('#h4-product-panel-text').text('Search Product to Order');
     $('#div-product-search').show(500);

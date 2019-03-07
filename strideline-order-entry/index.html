@@ -257,15 +257,17 @@
                             </div>  
                             <div class="row top-5">
                                 <div class="col-sm-6"></div>
-                                <!--TODO: Update SL-->
                                 <div class="col-sm-4" style="padding-right: 1px;">
-                                    <button id="btn-create-customer" class="btn btn-primary form-control">Create Customer</button>
+                                    <button id="btn-create-customer" 
+                                        class="btn btn-primary form-control">
+                                        Create Customer
+                                    </button>
                                 </div>
                                 <div class="col-sm-2" style="padding-left: 1px;">
                                     <button id="btn-cancel-customer" 
-                                    class="btn btn-danger form-control">
-                                    Cancel
-                                </button>
+                                        class="btn btn-danger form-control">
+                                        Cancel
+                                    </button>
                                 </div>
                             </div>                         
                         </div>   
@@ -309,15 +311,17 @@
                         </div>
                         <div class="row top-5">
                             <div class="col-sm-6"></div>
-                            <!--TODO: Update SL-->
                             <div class="col-sm-4" style="padding-right: 1px;">
-                                <button id="btn-proceed-order-type" class="btn btn-primary form-control">Next Step</button>
+                                <button id="btn-proceed-order-type" 
+                                    class="btn btn-primary form-control">
+                                    Next Step
+                                </button>
                             </div>
                             <div class="col-sm-2" style="padding-left: 1px;">
                                 <button id="btn-cancel-order-type" 
-                                class="btn btn-danger form-control">
-                                Cancel
-                            </button>
+                                    class="btn btn-danger form-control">
+                                    Cancel
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -527,16 +531,18 @@
                             </div>
                             <div class="row top-5">
                                 <div class="col-sm-6"></div>
-                                <!--TODO: Update SL-->
                                 <div class="col-sm-4" style="padding-right: 1px;">
-                                    <button id="btn-add-order-entry" class="btn btn-primary form-control">Order Product</button>
+                                    <button id="btn-add-order-entry" 
+                                        class="btn btn-primary form-control">
+                                        Order Product
+                                    </button>
                                 </div>
                                 <div class="col-sm-2" style="padding-left: 1px;">
                                     <button id="btn-cancel-order-entry"
-                                    class="btn btn-danger form-control"
-                                    style="padding-left: 9px;">
-                                    Cancel
-                                </button>
+                                        class="btn btn-danger form-control"
+                                        style="padding-left: 9px;">
+                                        Cancel
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -632,9 +638,8 @@
                                 </ul>
                             </div>
                         </div>  
-                        <!--TODO: Update SL-->                                 
                         <div class="tab-content">
-                            <div id="billing-tab" class="tab-pane fade in active">
+                            <div id="div-billing-tab" class="tab-pane fade in active">
                                 <input id="hdn-order-billing-address-id" type="hidden">
                                 <div class="row top-5"> 
                                     <div class="col-sm-12">
@@ -659,8 +664,9 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <input id="txt-order-billing-last-name"
-                                            class="form-control"
+                                            class="form-control text-required"
                                             type="text">
+                                        <span id="feedback-order-billing-last-name" class="invalid-feedback"></span>
                                     </div>
                                 </div>
                                 <div class="row top-5 billing-address-for-create-new">
@@ -671,8 +677,9 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <input id="txt-order-billing-first-name"
-                                            class="form-control"
+                                            class="form-control text-required"
                                             type="text">
+                                        <span id="feedback-order-billing-first-name" class="invalid-feedback"></span>
                                     </div>
                                 </div>                            
                                 <div class="row top-5 billing-address-for-create-new">
@@ -683,8 +690,9 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <input id="txt-order-billing-email"
-                                            class="form-control"
+                                            class="form-control text-required"
                                             type="text">
+                                        <span id="feedback-order-billing-email" class="invalid-feedback"></span>
                                     </div>
                                     <div class="col-sm-12">                                
                                         <hr>
@@ -800,7 +808,10 @@
                                     </div>                            
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-4" style="padding-right: 1px;">
-                                        <button id="btn-create-order-billing-address" class="btn btn-primary form-control">Create Address</button>
+                                        <button id="btn-create-order-billing-address" 
+                                            class="btn btn-primary form-control">
+                                            Create Address
+                                        </button>
                                     </div>
                                     <div class="col-sm-2" style="padding-left: 1px;">
                                         <button id="btn-cancel-order-billing-address" 
@@ -811,7 +822,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="shipping-tab" class="tab-pane fade in">
+                            <div id="div-shipping-tab" class="tab-pane fade in">
                                 <input id="hdn-order-shipping-address-id" type="hidden">
                                 <div class="row top-5"> 
                                     <div class="col-sm-12">
@@ -820,6 +831,23 @@
                                             <option value="1">Judyll Agan, USA, Dumaguete City</option>
                                         </select>
                                     </div>
+                                    <div class="col-sm-12">                                
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row top-5">
+                                    <div class="col-sm-4">
+                                        <label for="sel-order-warehouse">
+                                            Warehouse
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="sel-order-warehouse" class="form-control select-required">
+                                            <option value="0" selected>- UN-ROUTED -</option>
+                                            <option value="239">Dock High Logistics</option>
+                                            <option value="238">Seko Logistics SEA</option>
+                                        </select>
+                                    </div>                                    
                                     <div class="col-sm-12">                                
                                         <hr>
                                     </div>
@@ -930,7 +958,6 @@
                                 </div>
                             </div>
                         </div>                       
-                        <!--TODO: Update SL--> 
                         <div class="row top-5 general-fields-for-order">
                             <div class="col-sm-12">                                
                                 <hr>
@@ -989,7 +1016,6 @@
                                 <hr>
                             </div>
                         </div>
-                        <!--TODO: Update SL--> 
                         <div class="row top-5 general-fields-for-order">
                             <div class="col-sm-4">
                                 <label>
@@ -1028,8 +1054,7 @@
                                 </fieldset>                                
                             </div>
                         </div>
-                        <!--TODO: Update SL--> 
-                        <div id="div-corp-details" class="general-fields-for-order">
+                        <div id="div-corp-details">
                             <div class="row top-5">
                                 <div class="col-sm-4">
                                     <label for="txt-order-shipping-rate">
@@ -1127,14 +1152,16 @@
                                 </div>                                
                             </div>                            
                         </div>
-                        <!--TODO: Update SL-->
                         <div class="row top-5 general-fields-for-order">
                             <div class="col-sm-12">                                
                                 <hr>
                             </div>                            
                             <div class="col-sm-6"></div>
                             <div class="col-sm-4" style="padding-right: 1px;">
-                                <button id="btn-create-order-details" class="btn btn-primary form-control">Create Order</button>
+                                <button id="btn-create-order-details" 
+                                    class="btn btn-primary form-control">
+                                    Create Order
+                                </button>
                             </div>
                             <div class="col-sm-2" style="padding-left: 1px;">
                                 <button id="btn-cancel-order-details" 
